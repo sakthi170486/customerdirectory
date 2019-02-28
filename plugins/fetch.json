@@ -167,22 +167,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-sqlite-storage": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-sqlite-storage"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-compat": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-compat@^1.1.0"
-    },
-    "is_top_level": false,
-    "variables": {}
-  },
   "cordova-plugin-battery-status": {
     "source": {
       "type": "registry",
@@ -190,5 +174,13 @@
     },
     "is_top_level": true,
     "variables": {}
-  }
+  },
+    "cordova-plugin-sqlite-2": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-sqlite-2@~1.0.5"
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
 }

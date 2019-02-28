@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Navigator</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
+	</head>
+	<body>
+		<div class="inner-content">
+			<div class="maincontent bg-color">
+			</div>
+		</div>
+	</body>
+	<script id="welcome-tpl" type="text/x-handlebars-template">
+		<div class="container h-100">
+			<div class="h-100 row align-items-center">
+				<div class="col-md-1 d-none d-md-block">
+				</div>
+				<div class="col-md-10 col-sm-12 mx-auto text-center" id="lgmid">
+					<img src="img/logo.png" class="img-responsive" alt="">
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+	</script>
+	<script id="home-tpl" type="text/x-handlebars-template">
+		<div class="text-white text-center mt-5">
+			<h1>Welcome to Navigator</h1>
+			<p>Maintain the customer details!</p> 
+		</div>
+		<hr/>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-1 d-none d-md-block">
+				</div>
+				<div class="col-md-10 col-sm-12">
+					<a class="d-block m-3 pt-3 text-white lnk" href="SignUp"><h4><i class="fa fa-plane"></i> Sign Up</h4></a>
+					<a class="d-block m-3 pt-3 text-white lnk" href="SignIn"><h4><i class="fa fa-lock"></i> Sign In</h4></a>
+					<a class="d-block m-3 pt-3 text-white lnk" href=""><h4><i class="fa fa-video-camera"></i> Watch Video</h4></a>
+				</div>
+				<div class="col-md-1">
+				</div>
+			</div>
+		</div>
+	</script>
+	<script id="signup-tpl" type="text/x-handlebars-template">
+		<div class="container h-100 mt-3">
+			<div class="h-100 row align-items-center">
+				<div class="col-md-1 d-none d-md-block">
+				</div>
+				<div class="col-md-10 col-sm-12 mx-auto">						
+					<h3 class="text-center text-white">SIGN UP</h3>
+					<div class="form-group cam text-center text-white">
+						<a href="" data-toggle="modal" data-target="#photo"><img src="img/camera.png" id='profimg' class="img-responsive"></a><br/>
+						<span>upload photo</span><br/>
+						<hr/>
+					</div>
+					<div id="photo" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<p class="modal-title text-center w-100 font-weight-bold">Upload Photo</p>
+									<span class="close" data-dismiss="modal">&times;</span>
+									
+								</div>
+								<div class="modal-body text-center">
+									<button id='but_take' class="btn btn-outline-primary">Take photo</button><br/>
+									<button id='but_select' class="btn btn-outline-info mt-1">Select photo from Gallery</button>
+									
+								</div>
+							</div>
+						</div>	
+					</div>
+					<form action="#" class="text-white" name="reg" id="reg">
+						<div class="form-group">
+							<input type="text" class="form-control" required placeholder="Company Name *" name="cname" id="cname">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" required placeholder="Your Name *" name="name" id="name">
+						</div>
+						<div class="form-group">
+							<input type="tel" class="form-control" required placeholder="Mobile Number *" name="mobile" id="mobile">
+						</div>
+						<div class="form-group">
+							<input type="tel" class="form-control" placeholder="Alternative Number" name="altmobile" id="altmobile">
+						</div>
+						<div class="form-group">
+							<input type="email" class="form-control" placeholder="Email address *" required name="email" id="email">
+							<input type="hidden" class="form-control" name="imgname" id="imgname">
+							<input type="hidden" class="form-control" name="simgname" id="simgname">
+							<input type="hidden" class="form-control" name="accesskey" id="accesskey">
+						</div>	
+						<div class="form-group">
+							<input type="password" class="form-control" required placeholder="Password *" name="password" id="password">
+						</div>
+						<div class="form-group text-center">
+						<a id="" href="Home" class="btn form-btn pt-3 lnk">Home</a>
+						<button type="submit" class="btn form-btn reg" name="insert" id="insert" >Submit</button>
+						</div>
+					</form>	
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+	</script>
+	<script id="signin-tpl" type="text/x-handlebars-template">
+		<div class="container h-100" id="lgmid">
+			<div class="h-100 row align-items-center">
+				<div class="col-md-1 d-none d-md-block">
+				</div>
+				<div class="col-md-10 col-sm-12 mx-auto">
+					<h3 class="text-center text-white">SIGN IN</h3><br/>
+					<form action="#" class="text-white">								
+						<div class="form-group">
+							<label for="mobile">Enter Mobile Number: *</label>
+							<input type="tel" class="form-control" required name="umobile" id="umobile" autocomplete="off">
+						</div>									
+						<div class="form-group text-center">
+							<a id="" href="Home" class="btn form-btn pt-3 lnk">Home</a>
+							<button type="submit" class="btn form-btn lgn">Login</button>
+						</div>
+					</form>	
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+	</script>
+	<script id="otp-tpl" type="text/x-handlebars-template">
+		<div class="container h-100" id="lgmid">
+			<div class="h-100 row align-items-center">
+				<div class="col-md-1 d-none d-md-block"></div>
+				<div class="col-md-10 col-sm-12 mx-auto">
+					<h3 class="text-center text-white">Verify Mobile</h3><br/>
+					<form action="#" class="text-white">								
+						<div class="form-group">
+							<label for="mobile">Enter OTP: *</label>
+							<input type="tel" class="form-control" required id="otp">
+							<input type="hidden" name="cumobile" id="cumobile">
+						</div>									
+						<div class="form-group text-center">
+						<a id="" href="Home" class="btn form-btn pt-3 lnk">Home</a>
+						<button type="submit" class="btn form-btn lgnotp">Submit</button>
+						</div>
+					</form>	
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+	</script>
+	<script id="pswd-tpl" type="text/x-handlebars-template">
+		<div class="container h-100" id="lgmid">
+			<div class="h-100 row align-items-center">
+				<div class="col-md-1 d-none d-md-block"></div>
+				<div class="col-md-10 col-sm-12 mx-auto">
+					<h3 class="text-center text-white">SIGN IN</h3><br/>
+					<form action="#" class="text-white">								
+						<div class="form-group">
+							<label for="mobile">Enter Password: *</label>
+							<input type="password" class="form-control" required id="lpswd">
+							<input type="hidden" name="pumobile" id="pumobile">
+						</div>									
+						<div class="form-group text-center">
+						<a id="" href="Home" class="btn form-btn pt-3 lnk">Home</a>
+						<button type="submit" class="btn form-btn pswdlgn">Submit</button>
+						</div>
+					</form>	
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+	</script>
+	<script src="phonegap.js"></script>
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>	
+	<script src="lib/handlebars.js"></script>
+	<script src="js/main.js"></script> 
+	<script src="js/jquery-ui.js"></script>
+	<script src="js/imgcache.js"></script>
+	<script src="js/md5.min.js"></script>
+	<!-- <script src="js/imgcache-promise.js"></script> -->
+	<script type="text/javascript">
+		// If logged in then move to dashboard
+		window.onload = function()
+		{
+			var lgn=window.localStorage.getItem('loginstatus');
+			if(lgn == 'true')
+			{
+				window.location.href="dashboard.html";
+			}
+		}
+		// window.openDatabase("database-name","version","database description","database size in bytes")
+		//var db = window.openDatabase("customerdb", "1.0", "customer database", 1000000); //will create database Dummy_DB or open it
+		
+		
+		var db = null;		
+		
+		
+		document.addEventListener("deviceready", onDeviceReady, false);
+		
+		function onDeviceReady() {
+		
+			//Open database
+			db = window.sqlitePlugin.openDatabase({
+				name: 'customerdb.db',
+				location: 'default',
+			});
+			
+			// Create Table
+			db.transaction(populateDB, errorCB, successCB);	
+			
+			// write log to console
+			ImgCache.options.debug = true;
+
+			// increase allocated space on Chrome to 25MB, default was 10MB
+			ImgCache.options.chromeQuota = 25*1024*1024;
+		
+			// Instead of using the PERSISTENT or TEMPORARY filesystems, use one of the
+			// Cordova File plugin's app directories
+			// (https://github.com/apache/cordova-plugin-file#where-to-store-files).
+			// This is friendlier in a mobile application environment as we are able to store
+			// files in the correct platform-recommended/enforced directories.
+			// WARNING: Make sure this points to a __directory__!
+			// NOTE: Only has effect when running in a Cordova environment	
+			
+			ImgCache.options.cordovaFilesystemRoot = cordova.file.dataDirectory;	
+			ImgCache.init();			
+		}
+		
+		
+		function checkInternet() {
+			var i=0;
+			var networkState = navigator.connection.type;
+			if(networkState == Connection.NONE || networkState == Connection.UNKNOWN) {
+				//onConnexionError();
+				i=0;
+
+			} else {
+			   i=1;
+			}
+			return i;
+		}
+		// Change image source and upload photo to server
+		function onSuccess(imageURI) {
+			// Set image source
+			var image = document.getElementById('profimg');
+			image.src = imageURI  + '?' + Math.random();
+
+			var options = new FileUploadOptions();
+			options.fileKey = "file";
+			options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+			options.mimeType = "image/jpeg";
+
+			var params = {};
+			params.value1 = "test";
+			params.value2 = "param";
+
+			options.params = params;
+			options.chunkedMode = false;
+			
+			var target = $('#profimg');
+			ImgCache.isCached(target.attr('src'), function(path, success) {
+			  if (success) {
+				// already cached				
+				ImgCache.useCachedFile(target);
+			  } else {
+				// not there, need to cache the image
+					ImgCache.cacheFile(imageURI, function () {					
+					ImgCache.useCachedFile(target);
+				});
+			  }			 
+			  $('#imgname').val(target.attr('src'));
+			});	
+			var internet = checkInternet();
+			if(internet > 0)
+			{
+				var ft = new FileTransfer();
+				ft.upload(imageURI, "http://www.azillesoft.com/phonegap/database/upload.php", function(result){
+					//alert('successfully uploaded ' + result.response);
+					if(result.response != 'NA')
+					{
+						$('#simgname').val(result.response);
+					}
+					else
+					{
+						$('#simgname').val('');
+					}
+					$('#photo').modal('hide');				
+				}, function(error){
+					//alert('error : ' + JSON.stringify(error));
+				}, options);
+			}
+			
+			$('#photo').modal('hide');
+		}
+		
+		function onFail(message) {
+			alert('Failed because: ' + message);
+		}
+		function checkIfFileExists(path){
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+				fileSystem.root.getFile(path, { create: false }, fileExists, fileDoesNotExist);
+			}, getFSFail); //of requestFileSystem
+		}
+		function fileExists(fileEntry){
+			ImgCache.removeFile(fileEntry);
+			//alert("File " + fileEntry.fullPath + " exists!");
+		}
+		function fileDoesNotExist(){
+			//alert("file does not exist");
+		}
+		function getFSFail(evt) {
+			console.log(evt.target.error.code);
+		}
+		
+		function populateDB(tx){
+		
+			tx.executeSql('CREATE TABLE IF NOT EXISTS customerdetails (id INTEGER PRIMARY KEY AUTOINCREMENT, accesskey TEXT NOT NULL , name TEXT NOT NULL, emailid TEXT NOT NULL, phonenumber TEXT NOT NULL, address TEXT, city TEXT DEFAULT NULL, state TEXT DEFAULT NULL, country TEXT DEFAULT NULL, pincode INTEGER NOT NULL, source INTEGER NOT NULL DEFAULT 0,cusuniqueid TEXT NOT NULL, dateofcreation TEXT NOT NULL, dateofupdate TEXT NOT NULL)');
+			
+			tx.executeSql('CREATE TABLE IF NOT EXISTS userdetails (id INTEGER PRIMARY KEY AUTOINCREMENT, company_name TEXT NOT NULL , name TEXT NOT NULL, emailid TEXT NOT NULL, phonenumber TEXT NOT NULL, alternumber TEXT, profilepic TEXT DEFAULT NULL, planname TEXT DEFAULT NULL,planexpiry TEXT DEFAULT NULL,paymentid TEXT DEFAULT NULL,paymentstatus TEXT DEFAULT NULL,loginaccess TEXT DEFAULT NULL, accessexpiry TEXT DEFAULT NULL, lastlogin TEXT DEFAULT NULL,accesskey TEXT NOT NULL ,status INTEGER NOT NULL DEFAULT 0,password TEXT NOT NULL ,dateofcreation TEXT NOT NULL, dateofupdate TEXT NOT NULL)');	
+
+			tx.executeSql('CREATE TABLE IF NOT EXISTS plandetails (id INTEGER PRIMARY KEY AUTOINCREMENT, planname TEXT NOT NULL, period TEXT NOT NULL, price TEXT NOT NULL, description TEXT NULL, dateofcreation TEXT NOT NULL, dateofupdate TEXT NOT NULL)');
+		}
+		
+
+		function errorCB(err) {
+			alert("Error processing SQL: "+err.code);
+		}
+		
+		function afterLogin()
+		{
+			var uid = window.localStorage.getItem('uid');
+			var internet = checkInternet();
+			if(internet > 0)
+			{	
+				var akey = window.localStorage.getItem('accesskey');
+				$.ajax({
+					type: "POST",
+					url:"http://www.azillesoft.com/phonegap/database/json.php",
+					data : 'u='+uid+'&k='+akey, // post data || get data
+					dataType : 'json', // data type
+					crossDomain: true,
+					cache: false,
+					success: function(resul){
+						if(resul.length > 0) 
+						{
+							$.each(resul, function(i, field){								
+								var pname=field.planname;
+								var pexpiry=field.planexpiry;
+								var payid=field.paymentid;
+								var paystatus=field.paymentstatus;
+								db.transaction(function(tx){					
+									tx.executeSql("UPDATE userdetails SET planname=?,planexpiry=?,paymentid=?,paymentstatus=? where phonenumber=?",[pname,pexpiry,payid,paystatus,uid],function(tx1,result){
+										//success
+									},errorCB);
+								}, errorCB, successCB);									
+							});	
+						}					
+					}
+				});
+			}
+			
+			db.transaction(function(tx){
+				tx.executeSql("select planname,planexpiry,paymentid,paymentstatus from userdetails where accesskey=?",[akey],function(tx1,result){
+					var len = result.rows.length;
+					if(len >0)
+					{						
+						for (var i=0; i<len; i++){							
+							var pname=result.rows.item(i).planname;
+							var pexpiry=result.rows.item(i).planexpiry;
+							var payid=result.rows.item(i).paymentid;
+							var paystatus=result.rows.item(i).paymentstatus;
+							
+							if(pname != '')
+							{
+								window.localStorage.setItem('pname',pname);
+							}
+							if(pexpiry != '')	
+							{
+								window.localStorage.setItem('pexp',pexpiry);
+							}
+							if(payid != '')
+							{
+								window.localStorage.setItem('payid',payid);
+							}
+							if(paystatus != '')
+							{
+								window.localStorage.setItem('pstat',paystatus);							
+							}						
+						}
+					}
+				},errorCB);
+			}, errorCB, successCB);	
+			
+			
+			if(internet > 0)
+			{
+				db.transaction(function(tx){
+					tx.executeSql("DELETE from plandetails",[],successCB,errorCB);
+				},errorCB,successCB);
+			
+				var today = new Date();
+				var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+				var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+				var dt = date+' '+time;
+				
+				$.ajax({
+					type: "POST",
+					url:"http://www.azillesoft.com/phonegap/database/planjson.php",			
+					dataType : 'json', // data type
+					crossDomain: true,
+					cache: false,
+					success: function(result){						
+						if(result.length > 0) 
+						{							
+							$.each(result, function(i, field){								
+								var name=field.planname;
+								var period=field.period;
+								var price=field.price;	
+								
+								db.transaction(function(txs){									
+									txs.executeSql("INSERT INTO plandetails(planname,period,price,dateofcreation,dateofupdate) VALUES (?,?,?,?,?)", [name,period,price,dt,dt], successCB,errorCB);
+								},errorCB,successCB);
+							});	
+						}					
+					}
+				});
+			}
+		}
+		
+		function successCB() {
+		 //alert("success!");
+		}
+		
+		function synccusdet()
+		{
+			var internet = checkInternet();
+			if(internet > 0)
+			{
+				var accesskey = window.localStorage.getItem('accesskey');
+				
+				var CurrentDate = new Date();
+				
+				db.transaction(function(tx){
+					tx.executeSql("select id from userdetails where accesskey=? and planexpiry >= ?", [accesskey,CurrentDate], function(tx1, ress) {
+						var lens = ress.rows.length;
+						if(lens > 0)
+						{
+							var src=1;
+							db.transaction(function(tx){
+								tx.executeSql("select accesskey,name,address,city,state,country,pincode,emailid,phonenumber,cusuniqueid,dateofupdate from customerdetails where source=? and accesskey=? ", [src,accesskey], function(tx1, res) {
+									var all_rows = [];
+									for (i=0; i < res.rows.length; ++i)
+									{
+										all_rows.push(res.rows.item(i));
+									}
+									cusJson = JSON.stringify(all_rows);								
+									$.ajax({
+										type: "POST",
+										url:"http://www.azillesoft.com/phonegap/database/updateallcustomer.php",
+										data: {cusdet: cusJson}, // post data || get data
+										dataType: "json",
+										crossDomain: true,
+										cache: false,
+										success: function(data){
+										}
+									});
+								},errorCB);
+							}, errorCB, successCB);	
+						}
+					},errorCB);
+				}, errorCB, successCB);					
+			}
+		}
+	
+		// open the corresponding page
+		$('body').on('click','.lnk',function(e){
+			e.preventDefault();
+			// Most effect types need no options passed by default			
+			var l=$(this).attr('href').toLowerCase();
+			if(l != '#' && l != '')
+			{
+				if($('#simgname').val())
+				{		
+					var v = $('#simgname').val();
+					if(v.length > 0)
+					{
+						var internet = checkInternet();
+						if(internet > 0)
+						{
+							$.ajax({
+								type: "POST",
+								url:"http://www.azillesoft.com/phonegap/database/checkuimg.php",
+								data : 'm='+v, // post data || get data
+								crossDomain: true,
+								cache: false,
+								success: function(data){
+									if(data == 0)
+									{
+										$('#profimg').attr('src','img/camera.png');
+									}
+									//console.log(data);						
+								}
+							});
+						}
+					}
+				}
+				var template = Handlebars.compile($("#"+l+"-tpl").html());
+				
+				if(l == 'home' || l == 'welcome'){
+					window.localStorage.setItem('firstpage',1);}
+				else
+				{
+					window.localStorage.setItem('firstpage',0);
+				}
+			
+				var options = {direction:'right'};
+				var internet = checkInternet();
+				if(l == 'signup' && internet == 0)
+				{
+					alert('You are offline. Go online to register.');
+				}
+				else
+				{
+					$('.maincontent').html('');
+					$( ".maincontent" ).effect( 'slide', options, 300, function(){
+						$('.maincontent').html(template);
+						if(l == 'signin')
+						{
+							$('#umobile').focus();
+						}
+					});
+				}
+			}
+			
+		});
+		
+		// Check mobile number already registered or not
+		$("body").on('blur','#mobile',function(e){
+			var v=$(this).val();
+			var im = $('#simgname').val();
+			if(v.length > 0 )
+			{				
+				var internet = checkInternet();
+				if(internet > 0)
+				{					
+					$.ajax({
+						type: "POST",
+						url:"http://www.azillesoft.com/phonegap/database/checkumobile.php",
+						data : 'm='+v+'&im='+im, // post data || get data
+						crossDomain: true,
+						cache: false,
+						success: function(data){
+							var d=data.split('/');
+							if(d[0] == "exists")
+							{			
+								$('#profimg').attr('src','img/camera.png');
+								alert("Mobile number already registered.");
+								$("#mobile").val('');
+								$("#reg")[0].reset();
+								if(d[1]==1)
+								{
+									var signinTpl = Handlebars.compile($("#signin-tpl").html());	
+									$('.maincontent').html(signinTpl);
+								}
+								else
+								{
+								
+									var otpTpl = Handlebars.compile($("#otp-tpl").html());	
+									$('.maincontent').html(otpTpl);
+									$('#cumobile').val(v);$('#otp').focus();
+									
+									var options = {
+										delimiter : "Code is",
+										length : 6,
+										origin : "TESTTO"
+									  };										  
+									var success = function (otp) {
+										//console.log("GOT OTP", otp);
+										$('#otp').val(otp)
+										OTPAutoVerification.stopOTPListener();
+									}
+
+									var failure = function () {
+										OTPAutoVerification.stopOTPListener();
+										console.log("Problem in listening OTP");
+									}
+
+									OTPAutoVerification.startOTPListener(options, success, failure);
+								}								
+							}						
+						}
+					});
+				}
+				else
+				{
+					alert('You are offline');	
+					$("#mobile").val('');
+					$("#reg")[0].reset();					
+				}
+			}
+		});
+	
+		// take picture from camera
+		$('body').on('click','#but_take',function(){
+			navigator.camera.getPicture(onSuccess, onFail, { quality: 20,
+				destinationType: Camera.DestinationType.FILE_URL 
+			});
+		});
+
+		// upload select 
+		$('body').on('click','#but_select',function(){
+			navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+				sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+				allowEdit: true,
+				destinationType: Camera.DestinationType.FILE_URI
+			});
+		});           
+		
+		// insert data to server
+		$("body").on('click','#insert',function(e){
+			e.preventDefault();	
+			var internet = checkInternet();
+			if(internet > 0)
+			{			
+				var cname=$("#cname").val();
+				var name=$("#name").val();
+				var mobile=$("#mobile").val();
+				var amobile=$("#altmobile").val();
+				var email=$("#email").val();
+				var cimgname=$("#imgname").val();			
+				var imgname=$("#simgname").val();			
+				var pswd = md5($("#password").val());
+				var accesskey = md5(Math.round(Math.floor(Math.random() * 1000000)));
+				$("#accesskey").val(accesskey);
+				
+				var today = new Date();
+				var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+				var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+				var dt = date+' '+time;
+				
+				if($.trim(cname).length > 0 && $.trim(name).length > 0 && $.trim(mobile).length > 0 && $.trim(email).length > 0)
+				{				
+					 atpos = email.indexOf("@");
+					 dotpos = email.lastIndexOf(".");				 
+					 if (atpos < 1 || ( dotpos - atpos < 2 )) {
+						alert("Please enter correct email ID")
+						$("#email").focus() ;
+						return false;
+					 }
+					 if(isNaN( mobile ) ||$.trim(mobile).length != 10 ) {					
+						alert( "Please provide a valid mobile number." );
+						$("#mobile").focus() ;
+						return false;
+					 }
+					if( amobile != '' && $.trim(amobile).length != 10 ) {					
+						alert( "Please provide a valid alternate number." );
+						$("#altmobile").focus() ;
+						return false;
+					 }	
+					$.ajax({
+						type: "POST",
+						url:"http://www.azillesoft.com/phonegap/database/insert.php",
+						//dataType : 'json', // data type
+						data : $("#reg").serialize(), // post data || get data
+						crossDomain: true,
+						cache: false,
+						beforeSend: function(){ $("#insert").text('Connecting...');},
+						success: function(data){
+							if(data == "fail")
+							{				
+								delImg();
+								$('#profimg').attr('src','img/camera.png');
+								alert("Sorry Not Registered. Try Again.");								
+							}
+							else if(data == "blank")
+							{				
+								delImg();
+								$('#profimg').attr('src','img/camera.png');
+								alert("Enter all the required fields and try again.");								
+							}
+							else
+							{								
+								db.transaction(function(tx){
+									var qry="INSERT INTO userdetails (company_name,name,phonenumber,alternumber,emailid,profilepic,accesskey,password,dateofcreation,dateofupdate) VALUES (?,?,?,?,?,?,?,?,?,?)";
+									tx.executeSql(qry, [cname,name,mobile,amobile,email,cimgname,accesskey,pswd,dt,dt], function(tx1,result){
+										alert("inserted");								
+										$("#insert").text('Submit');
+										$("#reg")[0].reset();
+										
+										//var signinTpl = Handlebars.compile($("#signin-tpl").html());	
+										//$('.maincontent').html(signinTpl);
+										
+										var otpTpl = Handlebars.compile($("#otp-tpl").html());	
+										$('.maincontent').html(otpTpl);
+										$('#cumobile').val(mobile);$('#otp').focus();
+										
+										
+										var options = {
+											delimiter : "Code is",
+											length : 6,
+											origin : "TESTTO"
+										  };										  
+										var success = function (otp) {
+											//console.log("GOT OTP", otp);
+											$('#otp').val(otp)
+											OTPAutoVerification.stopOTPListener();
+										}
+
+										var failure = function () {
+											OTPAutoVerification.stopOTPListener();
+											console.log("Problem in listening OTP");
+										}
+
+										OTPAutoVerification.startOTPListener(options, success, failure);
+										
+									},function(error){
+										checkIfFileExists(cimgname);
+										$('#profimg').attr('src','img/camera.png');
+										alert("error");
+									});
+								}, errorCB, successCB);	
+							}
+						}
+					});		
+				}
+				else 
+				{					
+					alert("Enter all the required fields");
+					//$("#reg")[0].reset();
+				}			
+				return false;
+			}
+			else
+			{
+				alert('You are offline.');
+			}
+		});
+		
+		// Check OTP online
+		$("body").on('click','.lgnotp',function(e){
+			e.preventDefault();
+			var m=$('#cumobile').val();
+			var o=$('#otp').val();
+			if(o.length > 0)
+			{
+				var internet = checkInternet();
+				if(internet > 0)
+				{
+					$.ajax({
+						type: "POST",
+						url:"http://www.azillesoft.com/phonegap/database/checkotp.php",
+						data : 'm='+m+'&o='+o, // post data || get data
+						crossDomain: true,
+						cache: false,
+						beforeSend: function(){
+							SpinnerDialog.show(null, "Processing");
+						},
+						success: function(data){							
+							if(data == 0)
+							{
+								alert("Incorrect OTP");							
+								$("#otp").val('').focus();
+							}
+							else
+							{				
+								db.transaction(function(tx){					
+									tx.executeSql("UPDATE userdetails SET status=1 where phonenumber=?",[m],function(tx1,result){
+										//success
+									},function(error){});
+								}, errorCB, successCB);	
+								 
+							
+								var signinTpl = Handlebars.compile($("#signin-tpl").html());	
+								$('.maincontent').html(signinTpl);	
+							}						
+						},
+						complete: function() {
+							SpinnerDialog.hide();							
+						}
+					});
+				}
+				else
+				{	
+					alert('You are offline');									
+				}
+			}
+			else
+			{
+				alert("Enter OTP.");
+			}
+		});
+		
+		
+		
+		// Check mobile number registered or not, then Send OTP to registered mobile
+		$("body").on('click','.lgn',function(e){
+			e.preventDefault();
+			var v=$('#umobile').val();
+			if(v.length > 0)
+			{
+				var internet = checkInternet();
+				if(internet > 0)
+				{
+					$.ajax({
+						type: "POST",
+						url:"http://www.azillesoft.com/phonegap/database/checkumobile.php",
+						data : 'm='+v, // post data || get data
+						crossDomain: true,
+						cache: false,
+						beforeSend: function(){
+							SpinnerDialog.show(null, "Processing");
+						},
+						success: function(data){
+							var d=data.split('/');
+							if(d[0] == "exists")
+							{							
+								db.transaction(function(tx){
+									tx.executeSql("select company_name,name,phonenumber,alternumber,emailid,profilepic,accesskey,dateofcreation,dateofupdate from userdetails where phonenumber=?",[v],function(tx1,result){
+										var len = result.rows.length;
+										if(len > 0)
+										{
+											var options = new FileUploadOptions();
+											var cname = result.rows.item(0).company_name;
+											var name = result.rows.item(0).name;
+											var pnum = result.rows.item(0).phonenumber;
+											var apnum = result.rows.item(0).alternumber;
+											var pic = result.rows.item(0).profilepic;
+											var email = result.rows.item(0).emailid;
+											var accesskey = result.rows.item(0).accesskey;
+											
+											if(pic.length > 0)
+											{
+												var ft = new FileTransfer();
+												ft.upload(pic, "http://www.azillesoft.com/phonegap/database/upload.php?a=u&id="+accesskey, function(result){
+													pic = result.response;	
+												}, function(error){
+													alert('error : ' + JSON.stringify(error));
+												}, options);
+											}
+											
+											$.ajax({
+												type: "POST",
+												url:"http://www.azillesoft.com/phonegap/database/update.php",
+												data : 'eid='+accesskey+'&ecname='+cname+'&ename='+name+'&emobile='+pnum+'&altmobile='+apnum+'&eemail='+email, // post data || get data
+												crossDomain: true,
+												cache: false,
+												success: function(data){
+													if(data !='success')
+													{													
+														alert("Process Failed. Try Again with Registered mobile Number");
+													}
+												}
+											});										
+										}
+									},errorCB);
+								}, errorCB, successCB);	
+							}							
+						},
+						complete:function(){
+							SpinnerDialog.hide();
+						}
+					});
+				}
+				
+				var c=0;
+				SpinnerDialog.show(null, "Processing");
+				db.transaction(function(tx){
+					tx.executeSql("select id,status from userdetails where phonenumber=?",[v],function(tx1,result){
+						c = result.rows.length;	
+						if(c == 0)
+						{
+							SpinnerDialog.hide();
+							alert("Mobile number not registered. Enter Registered mobile Number");
+							$('#umobile').val('').focus();
+						}
+						else
+						{
+							var status = result.rows.item(0).status;
+							SpinnerDialog.hide();
+							if(status == 1)
+							{
+								var pswdTpl = Handlebars.compile($("#pswd-tpl").html());	
+								$('.maincontent').html(pswdTpl);
+								$('#pumobile').val(v);$('#lpswd').focus();
+							}
+							else
+							{
+								if(internet > 0)
+								{
+									var otpTpl = Handlebars.compile($("#otp-tpl").html());	
+									$('.maincontent').html(otpTpl);
+									$('#cumobile').val(v);$('#otp').focus();								
+									
+									var options = {
+										delimiter : "Code is",
+										length : 6,
+										origin : "TESTTO"
+									  };										  
+									var success = function (otp) {
+										//console.log("GOT OTP", otp);
+										$('#otp').val(otp)
+										OTPAutoVerification.stopOTPListener();
+									}
+
+									var failure = function () {
+										OTPAutoVerification.stopOTPListener();
+										console.log("Problem in listening OTP");
+									}
+									OTPAutoVerification.startOTPListener(options, success, failure);
+								}
+								else
+								{
+									alert('You mobile not verified. Go online and try again');
+								}
+							}
+						}
+					},errorCB);
+				}, errorCB, successCB);
+					
+			
+				/*$.ajax({
+					type: "POST",
+					url:"http://www.azillesoft.com/phonegap/database/sendotp.php",
+					data : 'm='+v, // post data || get data
+					crossDomain: true,
+					cache: false,
+					beforeSend: function(){
+						SpinnerDialog.show(null, "Processing");
+					},
+					success: function(data){
+						SpinnerDialog.hide();
+						if(data == 0)
+						{
+							alert("Mobile number not registered. Enter Registered mobile Number");							
+							$("#umobile").val('').focus();
+						}
+						else
+						{
+							alert("OTP has been sent to your email.");
+							var otpTpl = Handlebars.compile($("#otp-tpl").html());	
+							$('.maincontent').html(otpTpl);
+							$('#cumobile').val(v);
+						}						
+					}					
+				});*/
+				
+			}
+			else
+			{
+				alert("Enter mobile number.");
+			}
+		});
+	
+		$("body").on('click','.pswdlgn',function(e){
+			e.preventDefault();
+			var m=$('#pumobile').val();
+			var pswd=md5($('#lpswd').val());
+			
+			var today = new Date();
+			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			var dt = date+' '+time;			
+			
+			SpinnerDialog.show(null, "Processing");										
+			var c=0;var lid='';
+			db.transaction(function(tx){
+				tx.executeSql("select accesskey from userdetails where phonenumber=? and password=?",[m,pswd],function(tx1,result){
+					c = result.rows.length;								
+					if(c > 0)
+					{
+						lid = result.rows.item(0).accesskey;	
+						db.transaction(function(txs){					
+							txs.executeSql("UPDATE userdetails SET lastlogin=? where phonenumber=?",[dt,m],function(txs1,result){
+								//success
+								SpinnerDialog.hide();
+								window.localStorage.setItem('loginstatus','true');
+								window.localStorage.setItem('accesskey',lid);
+								window.localStorage.setItem('uid',m);
+								synccusdet();
+								
+								afterLogin();
+								
+								window.location.href="dashboard.html";
+							},function(error){	
+								SpinnerDialog.hide();
+								alert("Incorrect Password");							
+								$("#lpswd").val('').focus();
+							});
+						}, errorCB, successCB);							
+					}
+					else
+					{
+						SpinnerDialog.hide();
+						alert("Incorrect Password");							
+						$("#lpswd").val('').focus();
+					}
+				},errorCB);
+			}, errorCB, successCB);	
+			
+		});
+	
+	// Delete image from server using cordova plugin file	
+	function delImg()
+	{
+		var path = "http://www.azillesoft.com/phonegap/database/upload";
+		var filename = $('#simgname').val();
+		if(filename != ''){
+		window.resolveLocalFileSystemURL(path, function(dir) {
+			dir.getFile(filename, {create:false}, function(fileEntry) {
+					  fileEntry.remove(function(){
+						  // The file has been removed succesfully
+					  },function(error){
+						  // Error deleting the file
+					  },function(){
+						 // The file doesn't exist
+					  });
+			});
+		});
+		}
+	}
+ </script>
+</html>

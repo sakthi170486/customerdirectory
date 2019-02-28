@@ -34,11 +34,6 @@ var PARAMETER_IS_INCORRECT = -2147024809;
 var SUPPORTED_EXTENSIONS = ['.mp3', '.wma', '.wav', '.cda', '.adx', '.wm', '.m3u', '.wmx', '.m4a'];
 var SUPPORTED_PREFIXES = ['http', 'https', 'rstp'];
 
-var fsTypes = {
-    PERSISTENT: 'PERSISTENT',
-    TEMPORARY: 'TEMPORARY'
-};
-
 module.exports = {
     mediaCaptureMrg:null,
 
@@ -57,9 +52,7 @@ module.exports = {
         var extension = srcUri.extension;
         if (thisM.node === null) {
             if (SUPPORTED_EXTENSIONS.indexOf(extension) === -1 && SUPPORTED_PREFIXES.indexOf(prefix) === -1) {
-                if (lose) {
-                    lose({ code: MediaError.MEDIA_ERR_ABORTED });
-                }
+                lose && lose({ code: MediaError.MEDIA_ERR_ABORTED });
                 return false; // unable to create
             }
 
@@ -123,9 +116,7 @@ module.exports = {
         try {
             thisM.node.play();
         } catch (err) {
-            if (lose) {
-                lose({code:MediaError.MEDIA_ERR_ABORTED});
-            }
+            lose && lose({code:MediaError.MEDIA_ERR_ABORTED});
         }
     },
 
@@ -379,6 +370,11 @@ function processUri(src) {
 
     return uri;
 }
+
+var fsTypes = {
+    PERSISTENT: 'PERSISTENT',
+    TEMPORARY: 'TEMPORARY'
+};
 
 /**
  * Extracts path, filename and filesystem type from Uri

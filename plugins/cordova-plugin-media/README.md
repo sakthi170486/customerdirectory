@@ -1,7 +1,3 @@
----
-title: Media
-description: Record and play audio on the device.
----
 <!--
 # license: Licensed to the Apache Software Foundation (ASF) under one
 #         or more contributor license agreements.  See the NOTICE file
@@ -21,10 +17,6 @@ description: Record and play audio on the device.
 #         under the License.
 -->
 
-|AppVeyor|Travis CI|
-|:-:|:-:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/github/apache/cordova-plugin-media?branch=master)](https://ci.appveyor.com/project/ApacheSoftwareFoundation/cordova-plugin-media)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-media.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-media)|
-
 # cordova-plugin-media
 
 
@@ -39,34 +31,40 @@ This plugin defines a global `Media` Constructor.
 
 Although in the global scope, it is not available until after the `deviceready` event.
 
-```js
-document.addEventListener("deviceready", onDeviceReady, false);
-function onDeviceReady() {
-    console.log(Media);
-}
-```
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log(Media);
+    }
 
-Report issues with this plugin on the [Apache Cordova issue tracker](https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20(Open%2C%20%22In%20Progress%22%2C%20Reopened)%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22cordova-plugin-media%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC)
+:warning: Report issues on the [Apache Cordova issue tracker](https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Media%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC)
 
 
 ## Installation
 
-```bash
-cordova plugin add cordova-plugin-media
-```
+    cordova plugin add cordova-plugin-media
 
 ## Supported Platforms
 
 - Android
+- BlackBerry 10
 - iOS
+- Windows Phone 7 and 8
+- Tizen
+- Windows 8
 - Windows
 - Browser
 
+## Windows Phone Quirks
+
+- Only one media file can be played back at a time.
+
+- There are strict restrictions on how your application interacts with other media. See the [Microsoft documentation for details][url].
+
+[url]: http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh184838(v=vs.92).aspx
+
 ## Media
 
-```js
-var media = new Media(src, mediaSuccess, [mediaError], [mediaStatus]);
-```
+    var media = new Media(src, mediaSuccess, [mediaError], [mediaStatus]);
 
 ### Parameters
 
@@ -96,8 +94,6 @@ The following constants are reported as the only parameter to the
 
 ### Methods
 
-- `media.getCurrentAmplitude`: Returns the current amplitude within an audio file.
-
 - `media.getCurrentPosition`: Returns the current position within an audio file.
 
 - `media.getDuration`: Returns the duration of an audio file.
@@ -106,11 +102,7 @@ The following constants are reported as the only parameter to the
 
 - `media.pause`: Pause playback of an audio file.
 
-- `media.pauseRecord`: Pause recording of an audio file.
-
 - `media.release`: Releases the underlying operating system's audio resources.
-
-- `media.resumeRecord`: Resume recording of an audio file.
 
 - `media.seekTo`: Moves the position within the audio file.
 
@@ -130,48 +122,6 @@ The following constants are reported as the only parameter to the
 - __duration__: The duration of the media, in seconds.
 
 
-## media.getCurrentAmplitude
-
-Returns the current amplitude within an audio file.
-
-    media.getCurrentAmplitude(mediaSuccess, [mediaError]);
-
-### Supported Platforms
-
-- Android
-- iOS
-
-### Parameters
-
-- __mediaSuccess__: The callback that is passed the current amplitude (0.0 - 1.0).
-
-- __mediaError__: (Optional) The callback to execute if an error occurs.
-
-### Quick Example
-
-```js
-// Audio player
-//
-var my_media = new Media(src, onSuccess, onError);
-
-// Record audio
-my_media.startRecord();
-
-mediaTimer = setInterval(function () {
-    // get media amplitude
-    my_media.getCurrentAmplitude(
-        // success callback
-        function (amp) {
-            console.log(amp + "%");
-        },
-        // error callback
-        function (e) {
-            console.log("Error getting amp=" + e);
-        }
-    );
-}, 1000);
-```
-
 ## media.getCurrentPosition
 
 Returns the current position within an audio file.  Also updates the `Media` object's `position` parameter.
@@ -186,28 +136,27 @@ Returns the current position within an audio file.  Also updates the `Media` obj
 
 ### Quick Example
 
-```js
-// Audio player
-//
-var my_media = new Media(src, onSuccess, onError);
+    // Audio player
+    //
+    var my_media = new Media(src, onSuccess, onError);
 
-// Update media position every second
-var mediaTimer = setInterval(function () {
-    // get media position
-    my_media.getCurrentPosition(
-        // success callback
-        function (position) {
-            if (position > -1) {
-                console.log((position) + " sec");
+    // Update media position every second
+    var mediaTimer = setInterval(function () {
+        // get media position
+        my_media.getCurrentPosition(
+            // success callback
+            function (position) {
+                if (position > -1) {
+                    console.log((position) + " sec");
+                }
+            },
+            // error callback
+            function (e) {
+                console.log("Error getting pos=" + e);
             }
-        },
-        // error callback
-        function (e) {
-            console.log("Error getting pos=" + e);
-        }
-    );
-}, 1000);
-```
+        );
+    }, 1000);
+
 
 ## media.getDuration
 
@@ -218,25 +167,24 @@ Returns the duration of an audio file in seconds. If the duration is unknown, it
 
 ### Quick Example
 
-```js
-// Audio player
-//
-var my_media = new Media(src, onSuccess, onError);
+    // Audio player
+    //
+    var my_media = new Media(src, onSuccess, onError);
 
-// Get duration
-var counter = 0;
-var timerDur = setInterval(function() {
-    counter = counter + 100;
-    if (counter > 2000) {
-        clearInterval(timerDur);
-    }
-    var dur = my_media.getDuration();
-    if (dur > 0) {
-        clearInterval(timerDur);
-        document.getElementById('audio_duration').innerHTML = (dur) + " sec";
-    }
-}, 100);
-```
+    // Get duration
+    var counter = 0;
+    var timerDur = setInterval(function() {
+        counter = counter + 100;
+        if (counter > 2000) {
+            clearInterval(timerDur);
+        }
+        var dur = my_media.getDuration();
+        if (dur > 0) {
+            clearInterval(timerDur);
+            document.getElementById('audio_duration').innerHTML = (dur) + " sec";
+        }
+    }, 100);
+
 
 ## media.pause
 
@@ -247,97 +195,54 @@ Pauses playing an audio file.
 
 ### Quick Example
 
-```js
-// Play audio
-//
-function playAudio(url) {
-    // Play the audio file at url
-    var my_media = new Media(url,
-        // success callback
-        function () { console.log("playAudio():Audio Success"); },
-        // error callback
-        function (err) { console.log("playAudio():Audio Error: " + err); }
-    );
-
     // Play audio
-    my_media.play();
+    //
+    function playAudio(url) {
+        // Play the audio file at url
+        var my_media = new Media(url,
+            // success callback
+            function () { console.log("playAudio():Audio Success"); },
+            // error callback
+            function (err) { console.log("playAudio():Audio Error: " + err); }
+        );
 
-    // Pause after 10 seconds
-    setTimeout(function () {
-        my_media.pause();
-    }, 10000);
-}
-```
+        // Play audio
+        my_media.play();
 
-## media.pauseRecord
+        // Pause after 10 seconds
+        setTimeout(function () {
+            my_media.pause();
+        }, 10000);
+    }
 
-Pauses recording an audio file.
-
-    media.pauseRecord();
-
-
-### Supported Platforms
-
-- iOS
-
-
-### Quick Example
-
-```js
-// Record audio
-//
-function recordAudio() {
-    var src = "myrecording.mp3";
-    var mediaRec = new Media(src,
-        // success callback
-        function() {
-            console.log("recordAudio():Audio Success");
-        },
-
-        // error callback
-        function(err) {
-            console.log("recordAudio():Audio Error: "+ err.code);
-        });
-
-    // Record audio
-    mediaRec.startRecord();
-
-    // Pause Recording after 5 seconds
-    setTimeout(function() {
-        mediaRec.pauseRecord();
-    }, 5000);
-}
-```
 
 ## media.play
 
 Starts or resumes playing an audio file.
 
-```js
-media.play();
-```
+    media.play();
+
 
 ### Quick Example
 
-```js
-// Play audio
-//
-function playAudio(url) {
-    // Play the audio file at url
-    var my_media = new Media(url,
-        // success callback
-        function () {
-            console.log("playAudio():Audio Success");
-        },
-        // error callback
-        function (err) {
-            console.log("playAudio():Audio Error: " + err);
-        }
-    );
     // Play audio
-    my_media.play();
-}
-```
+    //
+    function playAudio(url) {
+        // Play the audio file at url
+        var my_media = new Media(url,
+            // success callback
+            function () {
+                console.log("playAudio():Audio Success");
+            },
+            // error callback
+            function (err) {
+                console.log("playAudio():Audio Error: " + err);
+            }
+        );
+        // Play audio
+        my_media.play();
+    }
+
 
 ### iOS Quirks
 
@@ -352,11 +257,8 @@ function playAudio(url) {
   is locked.  If set to `true` (the default value), the state of the
   hardware mute button is ignored, e.g.:
 
-        var myMedia = new Media("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3");
-        myMedia.play({ playAudioWhenScreenIsLocked : true });
-        myMedia.setVolume('1.0');
-
-> Note: To allow playback with the screen locked or background audio you have to add `audio` to `UIBackgroundModes` in the `info.plist` file. See [Apple documentation](https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/BackgroundExecution/BackgroundExecution.html#//apple_ref/doc/uid/TP40007072-CH4-SW23). Also note that the audio has to be started before going to background.
+        var myMedia = new Media("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3")
+        myMedia.play({ playAudioWhenScreenIsLocked : false })
 
 - __order of file search__: When only a file name or simple path is
   provided, iOS searches in the `www` directory for the file, then in
@@ -377,60 +279,14 @@ function for any `Media` resource that is no longer needed.
 
 ### Quick Example
 
-```js
-// Audio player
-//
-var my_media = new Media(src, onSuccess, onError);
+    // Audio player
+    //
+    var my_media = new Media(src, onSuccess, onError);
 
-my_media.play();
-my_media.stop();
-my_media.release();
-```
+    my_media.play();
+    my_media.stop();
+    my_media.release();
 
-## media.resumeRecord
-
-Resume recording an audio file.
-
-    media.resumeRecord();
-
-
-### Supported Platforms
-
-- iOS
-
-
-### Quick Example
-
-```js
-// Record audio
-//
-function recordAudio() {
-    var src = "myrecording.mp3";
-    var mediaRec = new Media(src,
-        // success callback
-        function() {
-            console.log("recordAudio():Audio Success");
-        },
-
-        // error callback
-        function(err) {
-            console.log("recordAudio():Audio Error: "+ err.code);
-        });
-
-    // Record audio
-    mediaRec.startRecord();
-
-    // Pause Recording after 5 seconds
-    setTimeout(function() {
-        mediaRec.pauseRecord();
-    }, 5000);
-
-    // Resume Recording after 10 seconds
-    setTimeout(function() {
-        mediaRec.resumeRecord();
-    }, 10000);
-}
-```
 
 ## media.seekTo
 
@@ -445,16 +301,19 @@ Sets the current position within an audio file.
 
 ### Quick Example
 
-```js
-// Audio player
-//
-var my_media = new Media(src, onSuccess, onError);
-    my_media.play();
-// SeekTo to 10 seconds after 5 seconds
-setTimeout(function() {
-    my_media.seekTo(10000);
-}, 5000);
-```
+    // Audio player
+    //
+    var my_media = new Media(src, onSuccess, onError);
+        my_media.play();
+    // SeekTo to 10 seconds after 5 seconds
+    setTimeout(function() {
+        my_media.seekTo(10000);
+    }, 5000);
+
+
+### BlackBerry 10 Quirks
+
+- Not supported on BlackBerry OS 5 devices.
 
 ## media.setVolume
 
@@ -473,35 +332,34 @@ Set the volume for an audio file.
 
 ### Quick Example
 
-```js
-// Play audio
-//
-function playAudio(url) {
-    // Play the audio file at url
-    var my_media = new Media(url,
-        // success callback
-        function() {
-            console.log("playAudio():Audio Success");
-        },
-        // error callback
-        function(err) {
-            console.log("playAudio():Audio Error: "+err);
-    });
-
     // Play audio
-    my_media.play();
+    //
+    function playAudio(url) {
+        // Play the audio file at url
+        var my_media = new Media(url,
+            // success callback
+            function() {
+                console.log("playAudio():Audio Success");
+            },
+            // error callback
+            function(err) {
+                console.log("playAudio():Audio Error: "+err);
+        });
 
-    // Mute volume after 2 seconds
-    setTimeout(function() {
-        my_media.setVolume('0.0');
-    }, 2000);
+        // Play audio
+        my_media.play();
 
-    // Set volume to 1.0 after 5 seconds
-    setTimeout(function() {
-        my_media.setVolume('1.0');
-    }, 5000);
-}
-```
+        // Mute volume after 2 seconds
+        setTimeout(function() {
+            my_media.setVolume('0.0');
+        }, 2000);
+
+        // Set volume to 1.0 after 5 seconds
+        setTimeout(function() {
+            my_media.setVolume('1.0');
+        }, 5000);
+    }
+
 
 ## media.startRecord
 
@@ -513,39 +371,39 @@ Starts recording an audio file.
 
 - Android
 - iOS
+- Windows Phone 7 and 8
 - Windows
 
 ### Quick Example
 
-```js
-// Record audio
-//
-function recordAudio() {
-    var src = "myrecording.mp3";
-    var mediaRec = new Media(src,
-        // success callback
-        function() {
-            console.log("recordAudio():Audio Success");
-        },
-
-        // error callback
-        function(err) {
-            console.log("recordAudio():Audio Error: "+ err.code);
-        });
-
     // Record audio
-    mediaRec.startRecord();
-}
-```
+    //
+    function recordAudio() {
+        var src = "myrecording.mp3";
+        var mediaRec = new Media(src,
+            // success callback
+            function() {
+                console.log("recordAudio():Audio Success");
+            },
+
+            // error callback
+            function(err) {
+                console.log("recordAudio():Audio Error: "+ err.code);
+            });
+
+        // Record audio
+        mediaRec.startRecord();
+    }
+
 
 ### Android Quirks
 
-- Android devices record audio in AAC ADTS file format. The specified file should end with a _.aac_ extension.
+- Android devices record audio in Adaptive Multi-Rate format. The specified file should end with a _.amr_ extension.
 - The hardware volume controls are wired up to the media volume while any Media objects are alive. Once the last created Media object has `release()` called on it, the volume controls revert to their default behaviour. The controls are also reset on page navigation, as this releases all Media objects.
 
 ### iOS Quirks
 
-- iOS only records to files of type _.wav_ and _.m4a_ and returns an error if the file name extension is not correct.
+- iOS only records to files of type _.wav_ and returns an error if the file name extension is not correct.
 
 - If a full path is not provided, the recording is placed in the application's `documents/tmp` directory. This can be accessed via the `File` API using `LocalFileSystem.TEMPORARY`. Any subdirectory specified at record time must already exist.
 
@@ -553,27 +411,17 @@ function recordAudio() {
 
         var myMedia = new Media("documents://beer.mp3")
 
-- Since iOS 10 it's mandatory to provide an usage description in the `info.plist` if trying to access privacy-sensitive data. When the system prompts the user to allow access, this usage description string will displayed as part of the permission dialog box, but if you didn't provide the usage description, the app will crash before showing the dialog. Also, Apple will reject apps that access private data but don't provide an usage description.
-
-This plugins requires the following usage description:
-
-* `NSMicrophoneUsageDescription` describes the reason that the app accesses the user's microphone. 
-
-To add this entry into the `info.plist`, you can use the `edit-config` tag in the `config.xml` like this:
-
-```
-<edit-config target="NSMicrophoneUsageDescription" file="*-Info.plist" mode="merge">
-    <string>need microphone access to record sounds</string>
-</edit-config>
-```
-
 ### Windows Quirks
 
 - Windows devices can use MP3, M4A and WMA formats for recorded audio. However in most cases it is not possible to use MP3 for audio recording on _Windows Phone 8.1_ devices, because an MP3 encoder is [not shipped with Windows Phone](https://msdn.microsoft.com/en-us/library/windows/apps/windows.media.mediaproperties.mediaencodingprofile.createmp3.aspx).
 
-- If a full path is not provided, the recording is placed in the `AppData/temp` directory. This can be accessed via the `File` API using `LocalFileSystem.TEMPORARY` or `ms-appdata:///temp/<filename>` URI.
+- If a full path is not provided, the recording is placed in the AppData/temp directory. This can be accessed via the `File` API using `LocalFileSystem.TEMPORARY` or 'ms-appdata:///temp/<filename>' URI.
 
 - Any subdirectory specified at record time must already exist.
+
+### Tizen Quirks
+
+- Not supported on Tizen devices.
 
 ## media.stop
 
@@ -583,31 +431,30 @@ Stops playing an audio file.
 
 ### Quick Example
 
-```js
-// Play audio
-//
-function playAudio(url) {
-    // Play the audio file at url
-    var my_media = new Media(url,
-        // success callback
-        function() {
-            console.log("playAudio():Audio Success");
-        },
-        // error callback
-        function(err) {
-            console.log("playAudio():Audio Error: "+err);
-        }
-    );
-
     // Play audio
-    my_media.play();
+    //
+    function playAudio(url) {
+        // Play the audio file at url
+        var my_media = new Media(url,
+            // success callback
+            function() {
+                console.log("playAudio():Audio Success");
+            },
+            // error callback
+            function(err) {
+                console.log("playAudio():Audio Error: "+err);
+            }
+        );
 
-    // Pause after 10 seconds
-    setTimeout(function() {
-        my_media.stop();
-    }, 10000);
-}
-```
+        // Play audio
+        my_media.play();
+
+        // Pause after 10 seconds
+        setTimeout(function() {
+            my_media.stop();
+        }, 10000);
+    }
+
 
 ## media.stopRecord
 
@@ -619,36 +466,40 @@ Stops recording an audio file.
 
 - Android
 - iOS
+- Windows Phone 7 and 8
 - Windows
 
 ### Quick Example
 
-```js
-// Record audio
-//
-function recordAudio() {
-    var src = "myrecording.mp3";
-    var mediaRec = new Media(src,
-        // success callback
-        function() {
-            console.log("recordAudio():Audio Success");
-        },
-
-        // error callback
-        function(err) {
-            console.log("recordAudio():Audio Error: "+ err.code);
-        }
-    );
-
     // Record audio
-    mediaRec.startRecord();
+    //
+    function recordAudio() {
+        var src = "myrecording.mp3";
+        var mediaRec = new Media(src,
+            // success callback
+            function() {
+                console.log("recordAudio():Audio Success");
+            },
 
-    // Stop recording after 10 seconds
-    setTimeout(function() {
-        mediaRec.stopRecord();
-    }, 10000);
-}
-```
+            // error callback
+            function(err) {
+                console.log("recordAudio():Audio Error: "+ err.code);
+            }
+        );
+
+        // Record audio
+        mediaRec.startRecord();
+
+        // Stop recording after 10 seconds
+        setTimeout(function() {
+            mediaRec.stopRecord();
+        }, 10000);
+    }
+
+
+### Tizen Quirks
+
+- Not supported on Tizen devices.
 
 ## MediaError
 

@@ -139,20 +139,6 @@ Media.prototype.stopRecord = function() {
 };
 
 /**
- * Pause recording audio file.
- */
-Media.prototype.pauseRecord = function() {
-    exec(null, this.errorCallback, "Media", "pauseRecordingAudio", [this.id]);
-};
-
-/**
-* Resume recording audio file.
-*/
-Media.prototype.resumeRecord = function() {
-    exec(null, this.errorCallback, "Media", "resumeRecordingAudio", [this.id]);
-};
-
-/**
  * Release the resources.
  */
 Media.prototype.release = function() {
@@ -173,18 +159,10 @@ Media.prototype.setRate = function(rate) {
     if (cordova.platformId === 'ios'){
         exec(null, null, "Media", "setRate", [this.id, rate]);
     } else {
-        console.warn('media.setRate method is currently not supported for', cordova.platformId, 'platform.');
+        console.warn('media.setRate method is currently not supported for', cordova.platformId, 'platform.')
     }
 };
 
-/**
- * Get amplitude of audio.
- */
-Media.prototype.getCurrentAmplitude = function(success, fail) {
-    exec(function(p) {
-        success(p);
-    }, fail, "Media", "getCurrentAmplitudeAudio", [this.id]);
-};
 
 /**
  * Audio has status update.
@@ -198,37 +176,30 @@ Media.onStatus = function(id, msgType, value) {
 
     var media = mediaObjects[id];
 
-    if (media) {
+    if(media) {
         switch(msgType) {
             case Media.MEDIA_STATE :
-                if (media.statusCallback) {
-                    media.statusCallback(value);
-                }
-                if (value == Media.MEDIA_STOPPED) {
-                    if (media.successCallback) {
-                        media.successCallback();
-                    }
+                media.statusCallback && media.statusCallback(value);
+                if(value == Media.MEDIA_STOPPED) {
+                    media.successCallback && media.successCallback();
                 }
                 break;
             case Media.MEDIA_DURATION :
                 media._duration = value;
                 break;
             case Media.MEDIA_ERROR :
-                if (media.errorCallback) {
-                    media.errorCallback(value);
-                }
+                media.errorCallback && media.errorCallback(value);
                 break;
             case Media.MEDIA_POSITION :
                 media._position = Number(value);
                 break;
             default :
-                if (console.error) {
-                    console.error("Unhandled Media.onStatus :: " + msgType);
-                }
+                console.error && console.error("Unhandled Media.onStatus :: " + msgType);
                 break;
         }
-    } else if (console.error) {
-        console.error("Received Media.onStatus callback for unknown media :: " + id);
+    }
+    else {
+         console.error && console.error("Received Media.onStatus callback for unknown media :: " + id);
     }
 
 };

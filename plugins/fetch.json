@@ -23,14 +23,14 @@
     "is_top_level": true,
     "variables": {}
   },
-	"cordova-plugin-contacts": {
-		"source": {
-			"type": "registry",
-			"id": "cordova-plugin-contacts@~2.0.1"
-		},
-		"is_top_level": true,
-		"variables": {}
-	},
+  "cordova-plugin-contacts": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-contacts@~2.0.1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
   "cordova-plugin-device": {
     "source": {
       "type": "registry",
@@ -74,7 +74,7 @@
   "cordova-plugin-file-transfer": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-file-transfer"
+      "id": "cordova-plugin-file-transfer@~1.5.1"
     },
     "is_top_level": true,
     "variables": {}
@@ -103,14 +103,14 @@
     "is_top_level": true,
     "variables": {}
   },
-    "cordova-plugin-media": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-media@~2.2.0"
-        },
-        "is_top_level": true,
-        "variables": {}
+  "cordova-plugin-media": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-media@~2.2.0"
     },
+    "is_top_level": true,
+    "variables": {}
+  },
   "cordova-plugin-network-information": {
     "source": {
       "type": "registry",
@@ -163,6 +163,30 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-otp-auto-verification"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-sqlite-storage": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-sqlite-storage"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-compat": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-compat@^1.1.0"
+    },
+    "is_top_level": false,
+    "variables": {}
+  },
+  "cordova-plugin-battery-status": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-battery-status@~1.2.4"
     },
     "is_top_level": true,
     "variables": {}

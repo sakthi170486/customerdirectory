@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Navigator</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
+	</head>
+	<body>
+		<div class="inner-content">
+			<div class="maincontent bg-color">
+				<div class="wrapper">
+					<!-- Sidebar -->
+					<nav id="sidebar">
+						<div class="sidebar-header">
+							<img src="img/camera.png" id="uimg" class="img-responsive" alt="Profile Image"/>
+						</div>
+						<ul class="list-unstyled components">
+							<p id="uname">Welcome Guest</p><hr/>							
+							<li class="active"><a href="MyAccount" class="lnk"><i class="fa fa-user"></i> My Account</a></li>
+							<li class="active"><a href="MyPlan" class="lnk"><i class="fa fa-user"></i> My Plan</a></li>
+							<li><a href="" class="adcus" ><i class="fa fa-user-plus"></i> Add Customer</a></li>
+							<li><a href="" class="srcus" ><i class="fa fa-search"></i> Search Customer</a></li>
+							<li><a href="#" id="logout"><i class="fa fa-sign-out"></i> Logout</a></li>					
+						</ul>
+					</nav>
+					<div id="content">
+						 <nav class="navbar navbar-expand-lg">
+							<div class="container-fluid">
+								<span id="sidebarCollapse" class="text-white">
+									<i class="fa fa-bars"></i> 
+								</span>
+							</div>
+						</nav>																
+					</div>					
+					<div class="getcontent">
+						
+					</div>
+					<div id="photo" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<p class="modal-title text-center w-100 font-weight-bold">Upload Photo</p>
+									<span class="close" data-dismiss="modal">&times;</span>									
+								</div>
+								<div class="modal-body text-center">
+									<button id='but_take' class="btn btn-outline-primary">Take photo</button><br/>
+									<button id='but_select' class="btn btn-outline-info mt-1">Select photo from Gallery</button>									
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script id="dashboard-tpl" type="text/x-handlebars-template">			
+		<div class="container inner-container mt-5">
+			<div class="row">
+				<div class="col-md-1 d-none d-md-block"></div>
+				<div class="col-md-10 col-sm-12 mx-auto">
+					<form action="#" class="text-white">								
+						<div class="form-group has-search">
+							<span class="fa fa-search form-control-feedback"></span>
+							<input class='form-control search-key w-70' placeholder="Search Customer" id="srchcus" type="search" />
+						</div>
+					</form>	
+					<hr/>
+					<div class="details">
+						<div class="scroll">
+							<div class="text-center mt-5" id="loader">
+								<img src="img/ajax-loader.gif" alt="" class="img-responsive"/>
+							</div>
+							<div class="d-none" id="vdash">
+								<a href="" class="float-right text-right w-100" id="sync"><i class="fa fa-refresh"></i> Sync</a>							
+								<ul class='customer-list'>
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-1">
+				</div>
+			</div>
+		</div>		
+	</script>
+	<script id="addcustomer-tpl" type="text/x-handlebars-template">
+		<div class="container inner-container mt-5">
+			<div class="h-100 row align-items-center">
+				<div class="col-md-1 d-none d-md-block">
+				</div>
+				<div class="col-md-10 col-sm-12 mx-auto">						
+					<h3 class="text-center text-white">Add Customer</h3><br/>					
+					<form action="#" class="text-white" name="cusreg" id="cusreg">
+						<div class="form-group">
+							<input type="text" class="form-control" required placeholder="Customer Name *" name="cname" id="cname">
+						</div>						
+						<div class="form-group">
+							<input type="tel" class="form-control" required placeholder="Mobile Number *" name="mobile" id="mobile">
+						</div>						
+						<div class="form-group">
+							<input type="email" class="form-control" placeholder="Email address *" required name="email" id="email">
+						</div>	
+						<div class="form-group">
+							<input type="text" class="form-control" required placeholder="Address *" name="addr" id="addr">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="City" name="city" id="city">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="State" name="state" id="state">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Country" name="country" id="country">
+						</div>
+						<div class="form-group">
+							<input type="tel" class="form-control" placeholder="Pincode" name="pincode" id="pincode">
+							<input type="hidden" class="form-control" name="compid" id="compid">
+							<input type="hidden" class="form-control" name="cusuid" id="cusuid">
+							<input type="hidden" class="form-control" name="ecusid" id="ecusid" value=''>
+						</div>
+						<div class="form-group text-center">
+						<a id="" href="Dashboard" class="btn form-btn pt-3 lnk">Cancel</a>
+						<button type="submit" class="btn form-btn" name="insert" id="insert" >Submit</button>
+						</div>
+					</form>	
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+	</script>
+	<script id="myaccount-tpl" type="text/x-handlebars-template">
+		<div class="container inner-container mt-5">
+			<div class="h-100 row align-items-center">
+				<div class="col-md-1 d-none d-md-block">
+				</div>
+				<div class="col-md-10 col-sm-12 mx-auto text-white">	
+					<h3 class="text-center text-white" id="ptitle" >My Profile</h3><hr/>
+					<div class="clearfix"></div>
+					<div class="d-none" id="eprofile">					
+						<form action="#" class="text-white" name="reg" id="reg">
+							<div class="form-group">
+								<input type="text" class="form-control" required placeholder="Company Name *" name="ecname" id="ecname">
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" required placeholder="Your Name *" name="ename" id="ename">
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" readonly placeholder="Mobile Number *" name="emobile" id="emobile">
+							</div>
+							<div class="form-group">
+								<input type="tel" class="form-control" placeholder="Alternative Number" name="altmobile" id="altmobile">
+							</div>
+							<div class="form-group">
+								<input type="email" class="form-control" placeholder="Email address *" required name="eemail" id="eemail">
+								<input type="hidden" class="form-control" name="imgname" id="imgname">
+								<input type="hidden" class="form-control" name="simgname" id="simgname">
+								<input type="hidden" class="form-control" name="accesskey" id="accesskey">
+								<input type="hidden" class="form-control" name="eid" id="eid">
+							</div>	
+							<div class="form-group text-center">
+								<a id="" href="" class="btn form-btn pt-3 cncl">Cancel</a>
+								<button type="submit" class="btn form-btn reg" name="update" id="update" >Update</button>
+							</div>
+						</form>	
+					</div>
+						
+						<div class="text-center mt-5" id="myaccloader">
+							<img src="img/ajax-loader.gif" alt="" class="img-responsive"/>
+						</div>
+						<div class="d-none" id="vprofile">
+							<a href="" class="float-right" id="pedit">Profile Edit <i class="fa fa-edit"></i></a><br/>
+							<div class='row'>
+								<div class='col-4 col-md-4 col-sm-4'>
+									<img src="img/camera.png" id="profimg" class="img-responsive" alt="Profile Image"/><a href="" title="change photo" id="epic" data-toggle="modal" data-target="#photo"><i class="fa fa-camera"></i></a>
+								</div>
+								<div class='col-8 col-md-8 col-sm-8'>
+									<p id="mcompname"></p>
+									<p id="mname"></p>
+									<p id="memail"></p>
+									<p id="mphone"></p>
+									<p id="maltnum"></p>
+								</div>
+							</div>
+						</div>
+					</div>					
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+	</script>
+	<script id="customer-tpl" type="text/x-handlebars-template">
+		<div class="container inner-container mt-5">
+			<div class="h-100 row align-items-center">
+				<div class="col-md-1 d-none d-md-block">
+				</div>
+				<div class="col-md-10 col-sm-12 mx-auto text-white">	
+					<h3 class="text-center text-white" id="cptitle" >Customer Profile</h3><hr/>
+					<div class="clearfix"></div>
+					<div class="d-none" id="ecusprofile">					
+						<form action="#" class="text-white" name="ecusreg" id="ecusreg">
+						<div class="form-group">
+							<input type="text" class="form-control" required placeholder="Customer Name *" name="ecusname" id="ecusname">
+						</div>						
+						<div class="form-group">
+							<input type="tel" class="form-control" required placeholder="Mobile Number *" name="mobile" id="mobile">
+						</div>						
+						<div class="form-group">
+							<input type="email" class="form-control" placeholder="Email address *" required name="email" id="email">
+						</div>	
+						<div class="form-group">
+							<input type="text" class="form-control" required placeholder="Address *" name="ecusaddr" id="ecusaddr">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="City" name="ecuscity" id="ecuscity">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="State" name="ecusstate" id="ecusstate">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Country" name="ecuscountry" id="ecuscountry">
+						</div>
+						<div class="form-group">
+							<input type="tel" class="form-control" placeholder="Pincode" name="ecuspincode" id="ecuspincode">
+							<input type="hidden" class="form-control" name="ecusid" id="ecusid">
+							<input type="hidden" class="form-control" name="source" id="source">
+							<input type="hidden" class="form-control" name="ecusuid" id="ecusuid">
+							<input type="hidden" class="form-control" name="eaccesskey" id="eaccesskey">
+						</div>
+						<div class="form-group text-center">
+						<a id="" href="" class="btn form-btn pt-3 ecncl">Cancel</a>
+						<button type="submit" class="btn form-btn" name="cusupdate" id="cusupdate" >Update</button>
+						</div>
+					</form>	
+					</div>
+					<div class="text-center mt-5" id="cusloader">
+						<img src="img/ajax-loader.gif" alt="" class="img-responsive"/>
+					</div>
+					<div class="row" id="vcusprofile">
+						<a href="" class="float-right" id="cusedit">Profile Edit <i class="fa fa-edit"></i></a>
+						<a href="Dashboard" class="lnk" id="cusbck"><i class="fa fa-arrow-left"></i> Back </a>
+						<div class='col-12 col-md-12 col-sm-12'>
+							<p id="vcusname"></p>
+							<p id="vcusemail"></p>
+							<p id="vcusphone"></p>
+							<p id="vcusaddr"></p>
+							<p id="vcuscity"></p>
+							<p id="vcusstate"></p>
+							<p id="vcuscountry"></p>
+							<p id="vcuspincode"></p>
+						</div>
+					</div>					
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+	</script>	
+	
+	<script id="myplan-tpl" type="text/x-handlebars-template">
+		<div class="container inner-container mt-5">
+			<div class="h-100 row align-items-center">
+				<div class="col-md-1 d-none d-md-block">
+				</div>
+				<div class="col-md-10 col-sm-12 mx-auto text-white">	
+					<h3 class="text-center text-white" id="cptitle" >My Plan</h3><hr/>
+					<div class="clearfix"></div>
+					
+					<div class="row" id="vplan">						
+						<a href="myaccount" class="lnk" id="plnbck"><i class="fa fa-arrow-left"></i> Back </a>
+						<div class="clearfix"></div><br/>
+						<div class='row mt-5'>
+							<div class='col-12 col-md-12 col-sm-12'>
+								<div class="panel panel-default">
+									<div class="panel-body">
+										<h5>Current Plan : <span id="cplan"></span></h5>
+										<p>Valid Upto : <span id="expplan"></span></p>
+									</div>
+								</div>							
+							</div>
+						</div>
+						
+						<div class='col-12 col-md-12 col-sm-12'>
+							<hr/>
+							<div class="text-center mt-5">
+								<a class="btn btn-primary lnk" href="Plans" >Upgrade Plan</a>
+							</div>
+						</div>
+					</div>					
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+	</script>	
+	
+	<script id="plans-tpl" type="text/x-handlebars-template">			
+		<div class="container inner-container mt-5">
+			<div class="row">
+				<div class="col-md-1 d-none d-md-block"></div>
+				<div class="col-md-10 col-sm-12 mx-auto">					
+					<div class="details">
+						<div class="scroll">
+							<h3 class="text-center text-white" id="cptitle">All Plans</h3><hr/>
+							<div class="clearfix"></div>
+							<div class="text-center mt-5" id="plnloader">
+								<img src="img/ajax-loader.gif" alt="" class="img-responsive" />
+							</div>
+							<div class="d-none" id="pdash">									
+								<div class='plan-list'>
+									
+								</div>
+								<div class="bfixed btn btn-primary"><a href="#" id="buyplan">Upgrade Plan</a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-1">
+				</div>
+			</div>
+		</div>		
+	</script>
+	
+	
+	<script src="phonegap.js"></script>
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>	
+	<script src="lib/handlebars.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>	
+	<script src="js/dashboard.js"></script>
+	<script src="js/md5.min.js"></script>
+	<script type="text/javascript">
+		/*window.onload = function()
+		{			
+			var lgn=window.localStorage.getItem('loginstatus');
+			if(lgn != 'true')
+			{				
+				window.location.href="index.html";
+			}
+			
+		}*/
+		var db = null;		
+		
+		
+		document.addEventListener("deviceready", onDeviceReady, false);
+		
+		function onDeviceReady() {		
+			//Open database
+			db = window.sqlitePlugin.openDatabase({
+				name: 'customerdb.db',
+				location: 'default',
+			});
+		}
+		
+		//var db = window.openDatabase("customerdb", "1.1", "customer database", 1000000);		
+		
+		function checkInternet() {
+			var i=0;
+			var networkState = navigator.connection.type;
+			if(networkState == Connection.NONE || networkState == Connection.UNKNOWN) {
+				//onConnexionError();
+				i=0;
+
+			} else {
+			   i=1;
+			}
+			return i;
+		}
+		// Change image source and upload photo to server
+		function onSuccess(imageURI) {
+			// Set image source
+			var image = document.getElementById('profimg');
+			image.src = imageURI  + '?' + Math.random();
+
+			var options = new FileUploadOptions();
+			options.fileKey = "file";
+			options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+			options.mimeType = "image/jpeg";
+
+			var params = {};
+			params.value1 = "test";
+			params.value2 = "param";
+
+			options.params = params;
+			options.chunkedMode = false;
+			
+			
+			var mob=window.localStorage.getItem('uid');
+			var accesskey=window.localStorage.getItem('accesskey');
+			
+			var target = $('#profimg');
+			var oldimg=target.attr('src');
+			
+			ImgCache.isCached(target.attr('src'), function(path, success) {
+			  if (success) {
+				// already cached				
+				ImgCache.useCachedFile(target);
+			  } else {
+				// not there, need to cache the image
+					ImgCache.cacheFile(imageURI, function () {					
+					ImgCache.useCachedFile(target);
+				});
+			  }			 
+			  $('#imgname').val(target.attr('src'));
+			  	
+				db.transaction(function(tx){					
+					tx.executeSql("UPDATE userdetails SET profilepic=? where phonenumber=?",[target.attr('src'),mob],function(tx1,result){
+						//success			
+					},errorCB);
+				}, errorCB, successCB);
+			});	
+			var internet = checkInternet();
+			if(internet > 0)
+			{
+				var ft = new FileTransfer();
+				ft.upload(imageURI, "http://www.azillesoft.com/phonegap/database/upload.php?a=u&id="+accesskey, function(result){
+					//alert('successfully uploaded ' + result.response);
+					$('#photo').modal('hide');				
+				}, function(error){
+					//alert('error : ' + JSON.stringify(error));
+				}, options);
+			}
+			$('#photo').modal('hide');
+		}
+		
+		function onFail(message) {
+			alert('Failed because: ' + message);
+		}
+		
+		function errorCB(err) {
+			alert("Error processing SQL: "+err.code);
+		}
+
+		function successCB() {
+			//alert("success!");
+		}
+		function getPlans()
+		{
+			db.transaction(function(tx){
+				qry = "select planname,period,price from plandetails";
+				tx.executeSql(qry,[],function(tx1,result){
+					var len = result.rows.length;
+					if(len > 0)
+					{						
+						$('.getcontent .plan-list').html('');
+						$('#plnloader').hide();
+						$('#pdash').show();$('#pdash').removeClass('d-none');					
+						for (var i=0; i<len; i++){
+							var id = result.rows.item(i).id;
+							var pname = result.rows.item(i).planname;
+							var period=result.rows.item(i).period;
+							var price=result.rows.item(i).price;
+							
+							$('.getcontent .plan-list').append('<div class="panel panel-default"><div class="panel-body"><div class="row"><div class="col-1"><input type="radio" name="splan" class="splan" value="'+id+'"></div><div class="col-11"><p >'+pname+'</p> <p>Period : '+period+'</p><p>Price : '+price+'</p></div></div></div></div>');						
+								
+						}
+					}else
+					{
+						$('#plnloader').hide();$('#pdash').show();$('#pdash').removeClass('d-none');
+						$('.getcontent .plan-list').html('<p>No Plan Found</p>');
+					}
+				},errorCB);
+			},errorCB,successCB);
+		}
+		function chkPlan()
+		{
+			var uid = window.localStorage.getItem('uid');
+			var internet = checkInternet();
+			if(internet > 0)
+			{				
+				var akey = window.localStorage.getItem('accesskey');
+				$.ajax({
+					type: "POST",
+					url:"http://www.azillesoft.com/phonegap/database/json.php",
+					data : 'u='+uid+'&k='+akey, // post data || get data
+					dataType : 'json', // data type
+					crossDomain: true,
+					cache: false,
+					success: function(resul){
+						if(resul.length > 0) 
+						{
+							$.each(resul, function(i, field){								
+								var pname=field.planname;
+								var pexpiry=field.planexpiry;
+								var payid=field.paymentid;
+								var paystatus=field.paymentstatus;
+								db.transaction(function(tx){					
+									tx.executeSql("UPDATE userdetails SET planname=?,planexpiry=?,paymentid=?,paymentstatus=? where phonenumber=?",[pname,pexpiry,payid,paystatus,uid],function(tx1,result){
+										//success
+									},errorCB);
+								}, errorCB, successCB);									
+							});	
+						}					
+					}
+				});
+			}
+			
+			db.transaction(function(tx){
+				tx.executeSql("select planname,planexpiry,paymentid,paymentstatus from userdetails where accesskey=?",[akey],function(tx1,result){
+					var len = result.rows.length;
+					if(len >0)
+					{						
+						for (var i=0; i<len; i++){							
+							var pname=result.rows.item(i).planname;
+							var pexpiry=result.rows.item(i).planexpiry;
+							var payid=result.rows.item(i).paymentid;
+							var paystatus=result.rows.item(i).paymentstatus;
+							
+							if(pname != '')
+							{
+								window.localStorage.setItem('pname',pname);
+							}
+							if(pexpiry != '')	
+							{
+								window.localStorage.setItem('pexp',pexpiry);
+							}
+							if(payid != '')
+							{
+								window.localStorage.setItem('payid',payid);
+							}
+							if(paystatus != '')
+							{
+								window.localStorage.setItem('pstat',paystatus);							
+							}
+						}
+					}
+				},errorCB);
+			}, errorCB, successCB);				
+		}
+			
+		function getlist(s = '')
+		{
+			var accesskey = window.localStorage.getItem('accesskey');
+			$('#loader').show();
+			$('.getcontent .customer-list').html('');			
+			db.transaction(function(tx){
+				var qry='';
+				if(s != '')
+				{	
+					qry="select cusuniqueid,name,source from customerdetails where accesskey='"+accesskey+"' and name like '%"+s+"%'";					
+					tx.executeSql(qry,[],function(tx1,result){
+						var len = result.rows.length;
+						if(len > 0)
+						{						
+							$('.getcontent .customer-list').html('');
+							$('#loader').hide();
+							$('#vdash').removeClass('d-none');
+							$('#vdash').show();
+							for (var i=0; i<len; i++){
+								var id = result.rows.item(i).cusuniqueid;
+								var name=result.rows.item(i).name;
+								var src=result.rows.item(i).source;
+								if(src == 1)
+								{
+									$('.getcontent .customer-list').append('<li><a class="vcus" href="'+id+'" data-src="'+src+'">'+name+'</a><a class="text-right dcus" data-src="'+src+'" href="'+id+'"><i class="fa fa-trash"></i></a></li>');
+								}
+								else
+								{
+									$('.getcontent .customer-list').append('<li><input type="checkbox" name="mrgcus[]" class="mrgcus" value="'+id+'"> <a class="vcus" href="'+id+'" data-src="'+src+'">'+name+'</a>  <a class="text-right dcus" href="'+id+'" data-src="'+src+'" title="delete"><i class="fa fa-trash"></i></a></li>');
+									//<a class="text-right mcus" href="'+id+'"><i class="fa fa-check"></i></a>
+								}
+							}
+						}else
+						{
+							$('#loader').hide();$('#vdash').show();$('#vdash').removeClass('d-none');
+							$('.getcontent .customer-list').html('<p>No Customer Found</p>');
+						}
+					},errorCB);
+				}
+				else
+				{
+					qry = "select cusuniqueid,name,source from customerdetails where accesskey=?";
+					tx.executeSql(qry,[accesskey],function(tx1,result){
+						var len = result.rows.length;
+						if(len > 0)
+						{						
+							$('.getcontent .customer-list').html('');
+							$('#loader').hide();
+							$('#vdash').removeClass('d-none');
+							$('#vdash').show();
+							for (var i=0; i<len; i++){
+								var id = result.rows.item(i).cusuniqueid;
+								var name=result.rows.item(i).name;
+								var src=result.rows.item(i).source;
+								if(src == 1)
+								{
+									$('.getcontent .customer-list').append('<li><a class="vcus" href="'+id+'" data-src="'+src+'">'+name+'</a><a class="text-right dcus" data-src="'+src+'" href="'+id+'"><i class="fa fa-trash"></i></a></li>');
+								}
+								else
+								{
+									$('.getcontent .customer-list').append('<li><input type="checkbox" name="mrgcus[]" class="mrgcus" value="'+id+'"> <a class="vcus" href="'+id+'" data-src="'+src+'">'+name+'</a>  <a class="text-right dcus" href="'+id+'" data-src="'+src+'" title="delete"><i class="fa fa-trash"></i></a></li>');
+									//<a class="text-right mcus" href="'+id+'"><i class="fa fa-check"></i></a>
+								}
+							}
+						}else
+						{
+							$('#loader').hide();$('#vdash').show();$('#vdash').removeClass('d-none');
+							$('.getcontent .customer-list').html('<p>No Customer Found</p>');
+						}
+					},errorCB);
+				}				
+				
+			}, errorCB, successCB);
+			
+			/* online code
+			var accesskey=window.localStorage.getItem('accesskey');
+			$('.getcontent .customer-list').html('');
+			$.ajax({
+				type: "POST",
+				url:"http://www.azillesoft.com/phonegap/database/cusjson.php",
+				data : 'u='+accesskey+'&c='+s, // post data || get data
+				dataType : 'json', // data type
+				crossDomain: true,
+				cache: false,
+				beforeSend: function(){ $('.getcontent #loader').show();},
+				success: function(result){
+					if(result.length > 0) 
+					{		
+						$('.getcontent #loader').hide();
+						$.each(result, function(i, field){
+							var id=field.id;
+							var name=field.name;
+							var src=field.source;
+							if(src == 1)
+							{
+								$('.getcontent .customer-list').append('<li><a class="vcus" href="'+id+'" data-src="'+src+'">'+name+'</a><a class="text-right dcus" data-src="'+src+'" href="'+id+'"><i class="fa fa-trash"></i></a></li>');
+							}
+							else
+							{
+								$('.getcontent .customer-list').append('<li><input type="checkbox" name="mrgcus[]" class="mrgcus" value="'+id+'"> <a class="vcus" href="'+id+'" data-src="'+src+'">'+name+'</a> <a class="text-right mcus" href="'+id+'"><i class="fa fa-check"></i></a><a class="text-right dcus" href="'+id+'" data-src="'+src+'" title="delete"><i class="fa fa-trash"></i></a></li>');
+							}
+						});	
+					}					
+				}
+			});*/
+			
+			
+		}
+		
+		function getmydet()
+		{
+			var uid=window.localStorage.getItem('uid');	
+			$('.getcontent #myaccloader').show();
+			$('.getcontent #vprofile').hide();
+			
+			db.transaction(function(tx){
+				tx.executeSql("select id,name,phonenumber,company_name,emailid,alternumber,profilepic,accesskey from userdetails where phonenumber=?",[uid],function(tx1,result){
+					var len = result.rows.length;
+					if(len >0)
+					{						
+						for (var i=0; i<len; i++){
+							var id = result.rows.item(i).id;
+							var name=result.rows.item(i).name;
+							var mobile=result.rows.item(i).phonenumber;
+							var cname=result.rows.item(i).company_name;
+							var emailid=result.rows.item(i).emailid;
+							var altnum=result.rows.item(i).alternumber;
+							var img=result.rows.item(i).profilepic;
+							var accesskey=result.rows.item(i).accesskey;							
+							
+							if(img != '')
+							{
+								$('#uimg').attr('src',img);
+								$('#profimg').attr('src',img);
+								/*$('#uimg').attr('src','http://www.azillesoft.com/phonegap/database/upload/'+img);
+								$('#profimg').attr('src','http://www.azillesoft.com/phonegap/database/upload/'+img);*/
+							}
+							
+							$('.getcontent #mcompname').text('Company Name : '+cname);
+							$('.getcontent #mname').text('Name : '+name);
+							$('.getcontent #memail').text('Email Id : '+emailid);
+							$('.getcontent #mphone').text('Contact Number : '+mobile);
+							$('.getcontent #maltnum').text('Alternate Number : '+altnum);
+							
+							$('.getcontent #ecname').val(cname);
+							$('.getcontent #ename').val(name);
+							$('.getcontent #eemail').val(emailid);
+							$('.getcontent #emobile').val(mobile);
+							$('.getcontent #altmobile').val(altnum);
+							$('.getcontent #simgname').val(img);
+							$('.getcontent #accesskey').val(accesskey);
+							$('.getcontent #eid').val(accesskey);
+							
+							$('#uname').text('Welcome '+name);
+						}						
+						$('.getcontent #myaccloader').hide();
+						$('.getcontent #vprofile').show();
+						$('#vprofile').removeClass('d-none');
+					}
+				},errorCB);
+			}, errorCB, successCB);			
+			
+		}
+		
+		function getcusdet(id)
+		{
+			$('.getcontent #cusloader').show();$('.getcontent #vcusprofile').hide();
+			var accesskey=window.localStorage.getItem('accesskey');
+			db.transaction(function(tx){
+				tx.executeSql("select id,name,address,city,state,country,pincode,emailid,phonenumber,source,cusuniqueid from customerdetails where cusuniqueid=? and accesskey=?",[id,accesskey],function(tx1,result){
+					var len = result.rows.length;
+					if(len >0)
+					{
+						for (var i=0; i<len; i++){
+							var id = result.rows.item(i).id;
+							var cname=result.rows.item(i).name;
+							var addr=result.rows.item(i).address;
+							var mobile=result.rows.item(i).phonenumber;
+							var emailid=result.rows.item(i).emailid;
+							var city=result.rows.item(i).city;
+							var state=result.rows.item(i).state;
+							var country=result.rows.item(i).country;
+							var pincode=result.rows.item(i).pincode;
+							var source=result.rows.item(i).source;
+							var cusuid=result.rows.item(i).cusuniqueid;
+							
+							$('.getcontent #vcusname').text('Name : '+cname);
+							$('.getcontent #vcusemail').text('Email Id : '+emailid);
+							$('.getcontent #vcusphone').text('Contact Number : '+mobile);
+							$('.getcontent #vcusaddr').text('Address : '+addr);
+							$('.getcontent #vcuscity').text('City : '+city);
+							$('.getcontent #vcusstate').text('State : '+state);
+							$('.getcontent #vcuscountry').text('Country : '+country);
+							$('.getcontent #vcuspincode').text('Pincode : '+pincode);
+							
+							$('.getcontent #ecusname').val(cname);
+							$('.getcontent #email').val(emailid);
+							$('.getcontent #mobile').val(mobile);
+							$('.getcontent #ecusaddr').val(addr);
+							$('.getcontent #ecuscity').val(city);
+							$('.getcontent #ecusstate').val(state);
+							$('.getcontent #ecuscountry').val(country);
+							$('.getcontent #ecuspincode').val(pincode);
+							$('.getcontent #source').val(source);
+							$('.getcontent #ecusid').val(id);
+							$('.getcontent #ecusuid').val(cusuid);
+						}	
+						$('.getcontent #cusloader').hide();
+						$('.getcontent #vcusprofile').removeClass('d-none');
+						$('.getcontent #vcusprofile').show();
+					}
+					else
+					{
+						getlist();
+					}
+				},errorCB);
+			}, errorCB, successCB);
+			
+			/*$.ajax({
+				type: "POST",
+				url:"http://www.azillesoft.com/phonegap/database/cusdetails.php",
+				data : 'u='+id, // post data || get data
+				dataType : 'json', // data type
+				crossDomain: true,
+				cache: false,
+				beforeSend: function(){ $('.getcontent #cusloader').show();$('.getcontent #vcusprofile').hide();},
+				success: function(result){
+					if( result.length > 0) 
+					{
+						$.each(result, function(i, field){
+							var id=field.id;
+							var cname=field.name;
+							var addr=field.address;
+							var mobile=field.phonenumber;
+							var emailid=field.emailid;
+							var city=field.city;
+							var state=field.state;
+							var country=field.country;
+							var pincode=field.pincode;
+							
+							$('.getcontent #vcusname').text('Name : '+cname);
+							$('.getcontent #vcusemail').text('Email Id : '+emailid);
+							$('.getcontent #vcusphone').text('Contact Number : '+mobile);
+							$('.getcontent #vcusaddr').text('Address : '+addr);
+							$('.getcontent #vcuscity').text('City : '+city);
+							$('.getcontent #vcusstate').text('State : '+state);
+							$('.getcontent #vcuscountry').text('Country : '+country);
+							$('.getcontent #vcuspincode').text('Pincode : '+pincode);
+							
+							$('.getcontent #ecusname').val(cname);
+							$('.getcontent #email').val(emailid);
+							$('.getcontent #mobile').val(mobile);
+							$('.getcontent #ecusaddr').val(addr);
+							$('.getcontent #ecuscity').val(city);
+							$('.getcontent #ecusstate').val(state);
+							$('.getcontent #ecuscountry').val(country);
+							$('.getcontent #ecuspincode').val(pincode);
+							$('.getcontent #ecusid').val(id);
+						});	
+						$('.getcontent #cusloader').hide();
+						$('.getcontent #vcusprofile').show();
+					}					
+				}
+			});*/
+		}
+		
+				
+		$(function()
+		{			
+			getmydet();
+			getlist();
+			
+			var CurrentDate = new Date();
+			var pexp = window.localStorage.getItem('pexp');
+			if(!pexp || pexp < CurrentDate)
+			{
+				$('.adcus,.srcus').attr('href','').addClass('noPlan').removeClass('lnk');				
+			}
+			else
+			{
+				$('.adcus').attr('href','AddCustomer').addClass('lnk').removeClass('noPlan');
+				$('.srcus').attr('href','Dashboard').addClass('lnk').removeClass('noPlan');
+			}
+			
+			$('#sidebar').removeClass('active');
+			// take picture from camera
+			$('body').on('click','#but_take',function(){
+				navigator.camera.getPicture(onSuccess, onFail, { quality: 20,
+					destinationType: Camera.DestinationType.FILE_URL 
+				});
+			});
+
+			// upload select 
+			$('body').on('click','#but_select',function(){
+				navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+					sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+					allowEdit: true,
+					destinationType: Camera.DestinationType.FILE_URI
+				});
+			}); 
+			
+			$('.maincontent').on('click', '#sidebarCollapse',function () {
+				$('#sidebar').toggleClass('active');
+			});	
+			
+			$('.maincontent').on('click', '.noPlan',function (e) {
+				e.preventDefault();
+				alert('Upgrade your plan');
+				$('#sidebar').toggleClass('active');
+				var planTpl = Handlebars.compile($("#myplan-tpl").html());	
+				$('.getcontent').html(planTpl);	
+			});	
+			
+			$('.maincontent').on('click', '#logout',function () {
+				localStorage.clear();
+				window.location.href="index.html";
+			});
+			
+			//my profile edit page
+			$('body').on('click','#pedit',function(e){
+				e.preventDefault();
+				$('#vprofile').addClass('d-none');
+				$('#eprofile').removeClass('d-none');
+				$('#ptitle').text('Edit Profile');
+				$(this).hide();
+			});
+			
+			// back from my profile edit page
+			$('body').on('click','.cncl',function(e){
+				e.preventDefault();
+				$('#eprofile').addClass('d-none');
+				$('#vprofile').removeClass('d-none');
+				$('#ptitle').text('My Profile');
+				$('#pedit').show();
+			});
+			
+			// view customer details
+			$('body').on('click','.vcus',function(e){
+				e.preventDefault();
+				var id=$(this).attr('href');				
+				var src=$(this).attr('data-src');
+				var template = Handlebars.compile($("#customer-tpl").html());
+				var options = {direction:'right'};
+				$('.getcontent').html('');
+				$(".getcontent").effect( 'slide', options, 300, function(){					
+					$('.getcontent').html(template);
+					getcusdet(id);
+					$('#sidebar').removeClass('active');					
+				});
+			});
+			
+			// customer edit
+			$('body').on('click','#cusedit',function(e){
+				e.preventDefault();
+				$('#vcusprofile').addClass('d-none');
+				$('#ecusprofile').removeClass('d-none');
+				$('#cptitle').text('Edit Customer Profile');
+			});
+			
+			// back from customer profile edit page
+			$('body').on('click','.ecncl',function(e){
+				e.preventDefault();
+				$('#ecusprofile').addClass('d-none');
+				$('#vcusprofile').removeClass('d-none');
+				$('#cptitle').text('Customer Profile');
+			});
+			
+			// open the corresponding page
+			$('body').on('click','.lnk',function(e){
+				e.preventDefault();
+				$('li').removeClass('active');
+				$(this).parent().addClass('active');
+				// Most effect types need no options passed by default
+				
+				var l=$(this).attr('href').toLowerCase();	
+				
+				if(l == 'myaccount')
+				{
+					window.localStorage.setItem('firstpage',1);
+				}
+				else
+				{
+					window.localStorage.setItem('firstpage',0);
+				}
+					
+				var template = Handlebars.compile($("#"+l+"-tpl").html());
+				var options = {direction:'right'};
+				$('.getcontent').html('');
+				$( ".getcontent" ).effect( 'slide', options, 300, function(){
+					$('.getcontent').html(template);
+					$('#sidebar').removeClass('active');
+					if(l=='dashboard')
+					{
+						getlist();
+					}
+					if(l=='myaccount')
+					{
+						getmydet();
+					}
+					if(l == 'myplan')
+					{
+						var cplan=window.localStorage.getItem('pname');
+						var pexp=window.localStorage.getItem('pexp');
+						if(cplan != '')
+						{
+							cplan='No Plan';
+						}
+						if(pexp != '')
+						{
+							pexp='-';
+						}
+						$('#cplan').text(cplan);
+						$('#expplan').text(pexp);
+					}
+					if(l == 'plans')
+					{
+						getPlans();						
+					}					
+				});				
+			});
+			
+			// Check customer mobile number already registered or not
+			$("body").on('blur','#mobile',function(e){
+				var v=$(this).val();
+				var chk=0;
+				var accesskey=window.localStorage.getItem('accesskey');
+				var cid = $('#ecusid').val();
+				
+				if(v.length > 0)
+				{
+					db.transaction(function(tx){
+						tx.executeSql("select id from customerdetails where phonenumber=? and id != ? and accesskey = ? ",[v,cid,accesskey],function(tx1,result){
+							var len = result.rows.length;
+							if(len >0)
+							{
+								id = result.rows.item(0).id;
+								if(id > 0)
+								{
+									chk=1;
+								}	
+							}
+						},errorCB);
+					}, errorCB, successCB);
+					
+					var internet = checkInternet();
+					if(internet > 0)
+					{
+						var uid=window.localStorage.getItem('uid');
+						chkPlan();
+						var today = new Date();
+						var pexp=window.localStorage.getItem('pexp');
+						if(pexp && pexp >= today)
+						{					
+							$.ajax({
+								type: "POST",
+								url:"http://www.azillesoft.com/phonegap/database/checkcusmobile.php",
+								data : 'm='+v+'&accesskey='+accesskey+'&cid='+cid, // post data || get data
+								crossDomain: true,
+								cache: false,
+								success: function(data){
+									if(data == "exists")
+									{
+										chk=1;																	
+									}						
+								}
+							});
+						}
+					}
+				}
+				if(chk == 1)
+				{
+					alert("Mobile number already registered.");
+					$("#mobile").val('').focus();
+				}
+			});	
+			
+			// insert customer data to server
+			$("body").on('click','#insert',function(e){
+				e.preventDefault();
+				var accesskey = window.localStorage.getItem('accesskey');				
+				$('#compid').val(accesskey);
+				var cusuid=accesskey + '-' + Math.floor(Math.random() * 100000);
+				$('#cusuid').val(cusuid);
+				
+				var cname=$("#cname").val();
+				var addr=$("#addr").val();
+				var mobile=$("#mobile").val();
+				var email=$("#email").val();
+				var city=$("#city").val();
+				var state=$("#state").val();
+				var country=$("#country").val();
+				var pincode=$("#pincode").val();
+				
+				var today = new Date();
+				var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+				var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+				var dt = date+' '+time;
+				
+				
+				if($.trim(cname).length > 0 && $.trim(addr).length > 0 && $.trim(mobile).length > 0 && $.trim(email).length > 0)
+				{
+					 atpos = email.indexOf("@");
+					 dotpos = email.lastIndexOf(".");				 
+					 if (atpos < 1 || ( dotpos - atpos < 2 )) {
+						alert("Please enter correct email ID")
+						$("#email").focus() ;
+						return false;
+					 }
+					 if(isNaN( mobile ) || $.trim(mobile).length != 10 ) {					
+						alert( "Please provide a valid mobile number." );
+						$("#mobile").focus() ;
+						return false;
+					}
+					if(pincode != '')
+					{					
+						if(isNaN( pincode )) {					
+							alert( "Please provide a valid pincode." );
+							$("#pincode").focus() ;
+							return false;
+						}
+					}
+
+					 
+					$("#insert").text('Connecting...');
+					db.transaction(function(tx){
+						var qry="INSERT INTO customerdetails (accesskey,name,phonenumber,emailid,address,city,state,country,pincode,cusuniqueid,dateofcreation,dateofupdate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+						tx.executeSql(qry, [accesskey,cname,mobile,email,addr,city,state,country,pincode,cusuid,dt,dt], function(tx1,result){
+							alert("inserted");
+							$("#insert").text('Submit');
+							$("#cusreg")[0].reset();
+						},function(error){
+							alert("error");
+						});
+					}, errorCB, successCB);	
+					
+					/*$.ajax({
+						type: "POST",
+						url:"http://www.azillesoft.com/phonegap/database/insertcustomer.php",
+						data : $("#cusreg").serialize(), // post data || get data
+						crossDomain: true,
+						cache: false,
+						beforeSend: function(){ $("#insert").text('Connecting...');},
+						success: function(data){
+							if(data=="success")
+							{
+								alert("inserted");
+								$("#insert").text('Submit');
+								$("#cusreg")[0].reset();
+							}
+							else if(data=="error")
+							{
+								alert("error");	
+							}
+						}
+					});*/
+				}
+				else 
+				{				
+					alert("Enter all the required fields");
+				}
+				return false;
+			});				
+		
+			// update my details to server
+			$("body").on('click','#update',function(e){
+				e.preventDefault();	
+				var accesskey = $("#accesskey").val();
+				var cname=$("#ecname").val();
+				var name=$("#ename").val();
+				var mobile=$("#emobile").val();
+				var amobile=$("#altmobile").val();
+				var email=$("#eemail").val();			
+				var imgname=$("#simgname").val();
+				
+				var today = new Date();
+				var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+				var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+				var dt = date+' '+time;
+				
+				if($.trim(ecname).length > 0 && $.trim(ename).length > 0 && $.trim(emobile).length > 0 && $.trim(eemail).length > 0)
+				{				
+					 atpos = email.indexOf("@");
+					 dotpos = email.lastIndexOf(".");				 
+					 if (atpos < 1 || ( dotpos - atpos < 2 )) {
+						alert("Please enter correct email ID")
+						$("#eemail").focus() ;
+						return false;
+					 }
+					 if(isNaN( mobile ) ||$.trim(mobile).length != 10 ) {					
+						alert( "Please provide a valid mobile number." );
+						$("#emobile").focus() ;
+						return false;
+					 }
+					if( amobile != '' && $.trim(amobile).length != 10 ) {					
+						alert( "Please provide a valid alternate number." );
+						$("#altmobile").focus() ;
+						return false;
+					 }	
+					$("#update").text('Connecting...');
+					
+								
+					
+					db.transaction(function(tx){					
+						tx.executeSql("UPDATE userdetails SET company_name=?,name=?,emailid=?,alternumber=?,dateofupdate=? where accesskey=?",[cname,name,email,amobile,dt,accesskey],function(tx1,result){
+							//success
+							alert("updated");
+							
+							var internet = checkInternet();
+							if(internet > 0)
+							{
+								$.ajax({
+									type: "POST",
+									url:"http://www.azillesoft.com/phonegap/database/update.php",
+									//dataType : 'json', // data type
+									data : $("#reg").serialize(), // post data || get data
+									crossDomain: true,
+									cache: false,
+									beforeSend: function(){ $("#update").text('Connecting...');},
+									success: function(data){
+										
+									}
+								});
+							}							
+							$("#update").text('Update');
+							
+							getmydet();
+							
+							$('#eprofile').addClass('d-none');
+							$('#vprofile').removeClass('d-none');
+							$('#ptitle').text('My Profile');
+							$('#pedit').show();
+						},function(error){								
+							alert("error");	
+							$('#eprofile').addClass('d-none');
+							$('#vprofile').removeClass('d-none');
+							$('#ptitle').text('My Profile');
+							$('#pedit').show();
+						});
+					}, errorCB, successCB);	
+					 
+					
+				}
+				else 
+				{					
+					alert("Enter all the required fields");
+					//$("#reg")[0].reset();
+				}
+				return false;
+			});
+			
+			
+			// update customer data to server
+			$("body").on('click','#cusupdate',function(e){
+				e.preventDefault();	
+				var cname=$("#ecusname").val();
+				var id=$("#ecusid").val();
+				var addr=$("#ecusaddr").val();
+				var mobile=$("#mobile").val();
+				var email=$("#email").val();
+				var src=$("#source").val();
+				var cusuid=$("#ecusuid").val();
+				var city=$("#ecuscity").val();
+				var state=$("#ecusstate").val();
+				var country=$("#ecuscountry").val();
+				var pincode=$("#ecuspincode").val();
+				
+				var today = new Date();
+				var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+				var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+				var dt = date+' '+time;
+				
+				if($.trim(cname).length > 0 && $.trim(addr).length > 0 && $.trim(mobile).length > 0 && $.trim(email).length > 0)
+				{				
+					 atpos = email.indexOf("@");
+					 dotpos = email.lastIndexOf(".");				 
+					 if (atpos < 1 || ( dotpos - atpos < 2 )) {
+						alert("Please enter correct email ID")
+						$("#email").focus() ;
+						return false;
+					 }
+					 if(isNaN( mobile ) ||$.trim(mobile).length != 10 ) {					
+						alert( "Please provide a valid mobile number." );
+						$("#mobile").focus() ;
+						return false;
+					 }	
+					 $("#cusupdate").text('Connecting...');
+					
+					
+					db.transaction(function(tx){					
+						tx.executeSql("UPDATE customerdetails SET name=?,phonenumber=?,emailid=?,address=?,city=?,state=?,country=?,pincode=?,dateofupdate=? where cusuniqueid=?",[cname,mobile,email,addr,city,state,country,pincode,dt,cusuid],function(tx1,result){
+							//success
+							alert("updated");
+							
+							
+							var internet = checkInternet();
+							if(internet > 0 && src == 1)
+							{
+								var uid=window.localStorage.getItem('uid');
+								chkPlan();
+								
+								var pexp=window.localStorage.getItem('pexp');
+								if(pexp && pexp >= today)
+								{								
+									$.ajax({
+										type: "POST",
+										url:"http://www.azillesoft.com/phonegap/database/updatecustomer.php",
+										data : $("#ecusreg").serialize(), // post data || get data
+										crossDomain: true,
+										cache: false,
+										beforeSend: function(){ $("#cusupdate").text('Connecting...');},
+										success: function(data){								
+										}
+									});
+								}
+							}					
+							
+							$("#cusupdate").text('Update');	
+							
+							getcusdet(cusuid);
+							
+							$('#ecusprofile').addClass('d-none');
+							$('#vcusprofile').removeClass('d-none');
+							$('#cptitle').text('Customer Profile');
+							$('#cusedit').show();
+							
+						},function(error){								
+							alert("error");	
+							$("#cusupdate").text('Update');	
+							$('#ecusprofile').addClass('d-none');
+							$('#vcusprofile').removeClass('d-none');
+							$('#cptitle').text('Customer Profile');
+							$('#cusedit').show();
+						});
+					}, errorCB, successCB);	
+				}
+				else 
+				{				
+					alert("Enter all the required fields");
+				}
+				return false;
+			});	
+		
+			// filter customer list
+			$('body').on('keyup','#srchcus',function(){
+				var c= $(this).val();				
+				getlist(c);
+				
+			});
+			// bulk sync data to main table in server
+			$("body").on('click','#sync',function(e){
+				e.preventDefault();	
+				var internet = checkInternet();
+				if(internet > 0)
+				{
+					var uid=window.localStorage.getItem('uid');
+					chkPlan();
+					var today = new Date();
+					var pexp=window.localStorage.getItem('pexp');
+					if(!pexp || pexp < today)
+					{
+						alert('Upgrade your plan');
+					}
+					else
+					{
+						var arr = $('.mrgcus:checked').map(function(){
+							return this.value;
+						}).get();
+						
+						if(arr == '')
+						{
+							var v=$('.mrgcus').length;
+							if(v > 0)
+							{
+								alert('select atleast one customer');
+							}
+							else
+							{
+								alert('There is no record to sync');
+							}
+						}
+						else
+						{
+							db.transaction(function(tx){
+								tx.executeSql("select accesskey,name,address,city,state,country,pincode,emailid,phonenumber,source,cusuniqueid,dateofcreation,dateofupdate from customerdetails where cusuniqueid in (?) ", [arr], function(tx1, res) {
+									var all_rows = [];
+									for (i=0; i < res.rows.length; ++i)
+									{
+										all_rows.push(res.rows.item(i));
+									}
+									cusJson = JSON.stringify(all_rows);								
+									$.ajax({
+										type: "POST",
+										url:"http://www.azillesoft.com/phonegap/database/synctoserver.php",
+										data: {cusdet: cusJson}, // post data || get data
+										dataType: "json",
+										crossDomain: true,
+										cache: false,
+										beforeSend: function(){ $('#sync').html('<img src="img/reload.gif" class="img-responsive"> Sync');},
+										success: function(data){
+											$('#sync').html('<i class="fa fa-refresh"></i> Sync');
+											
+											
+										},
+										complete:function(){
+											$('#sync').html('<i class="fa fa-refresh"></i> Sync');	
+											
+											db.transaction(function (tx2){										
+												tx2.executeSql('UPDATE customerdetails SET source="1" where cusuniqueid in (?)',[arr],successCB,errorCB);
+											},errorCB, successCB);
+												
+											getlist();	
+										}
+									});
+								},errorCB);
+							}, errorCB, successCB);						
+						}
+					}
+				}
+				else
+				{
+					alert('You are offline.');
+				}
+			});
+		
+			// single data sync to main table in server
+			$("body").on('click','.mcus',function(e){
+				e.preventDefault();	
+				var internet = checkInternet();
+				if(internet > 0)
+				{
+					var uid=window.localStorage.getItem('uid');
+					chkPlan();
+					var today = new Date();
+					var pexp=window.localStorage.getItem('pexp');
+					if(!pexp || pexp < today)
+					{
+						alert('Upgrade your plan');							
+					}
+					else
+					{
+						var arr =$(this).attr('href');	
+						db.transaction(function(tx){
+							tx.executeSql("select accesskey,name,address,city,state,country,pincode,emailid,phonenumber,source,cusuniqueid,dateofcreation,dateofupdate from customerdetails where cusuniqueid in (?) ", [arr], function(tx1, res) {
+								var all_rows = [];
+								for (i=0; i < res.rows.length; ++i)
+								{
+									all_rows.push(res.rows.item(i));
+								}
+								cusJson = JSON.stringify(all_rows);
+								
+								$.ajax({
+									type: "POST",
+									url:"http://www.azillesoft.com/phonegap/database/synctoserver.php",
+									data: {cusdet: cusJson}, // post data || get data
+									dataType: "json",
+									crossDomain: true,
+									cache: false,
+									beforeSend: function(){ $('#sync').html('<img src="img/reload.gif" class="img-responsive"> Sync');},
+									success: function(data){
+										$('#sync').html('<i class="fa fa-refresh"></i> Sync');									
+									},
+									complete:function(){
+										$('#sync').html('<i class="fa fa-refresh"></i> Sync');
+										db.transaction(function (tx2){										
+											tx2.executeSql('UPDATE customerdetails SET source="1" where cusuniqueid in (?)',[arr],successCB,errorCB);
+										},errorCB, successCB);
+										getlist();	
+									}
+								});
+							},errorCB);
+						}, errorCB, successCB);
+					}
+				}
+				else
+				{
+					alert('You are offline.');
+				}
+				
+			});
+			
+			// Delete data from table
+			$("body").on('click','.dcus',function(e){
+				e.preventDefault();	
+				var internet = checkInternet();
+				var arr =$(this).attr('href');
+				var src =$(this).attr('data-src');
+				
+				var message = "Are you sure want to delete?";
+				var title = "CONFIRM";
+				var buttonLabels = "YES,NO";
+				
+				if(internet > 0)
+				{
+					var uid=window.localStorage.getItem('uid');
+					chkPlan();
+					var today = new Date();
+					var pexp=window.localStorage.getItem('pexp');
+					if(!pexp || pexp < today)
+					{	
+						if(src == 0)
+						{							
+							navigator.notification.confirm(message, confirmCallback, title, buttonLabels);
+							function confirmCallback(buttonIndex) {
+								if(buttonIndex == 1)
+								{
+									db.transaction(function (tx){
+										tx.executeSql('delete from customerdetails where cusuniqueid=?',[arr],successCB,errorCB)
+									},errorCB, successCB);
+								}
+							}
+						}						
+					}
+					else
+					{
+						navigator.notification.confirm(message, confirmCallback, title, buttonLabels);
+						function confirmCallback(buttonIndex) {
+							if(buttonIndex == 1)
+							{				  
+								$.ajax({
+									type: "POST",
+									url:"http://www.azillesoft.com/phonegap/database/delcus.php",
+									data : 'v='+arr, // post data || get data
+									crossDomain: true,
+									cache: false,
+									success: function(data){
+										if(data=="success")
+										{
+											getlist();
+										}
+									},
+									complete:function(){
+										db.transaction(function (tx){
+											tx.executeSql('delete from customerdetails where cusuniqueid=?',[arr],successCB,errorCB)
+										},errorCB, successCB);
+									}
+								});
+							}					
+						}						
+					}
+				}
+				else
+				{
+					if(src == 0)
+					{						
+						navigator.notification.confirm(message, confirmCallback, title, buttonLabels);
+						function confirmCallback(buttonIndex) {
+							if(buttonIndex == 1)
+							{
+								db.transaction(function (tx){
+									tx.executeSql('delete from customerdetails where cusuniqueid=?',[arr],successCB,errorCB)
+								},errorCB, successCB);
+							}
+						}
+					}
+					else
+					{
+						alert('You are offline.');
+					}
+				}
+			});
+		});
+	</script>
+</html>
